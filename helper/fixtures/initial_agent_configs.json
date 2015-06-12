@@ -1,0 +1,51 @@
+[
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.dropbox"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.facebook"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.github"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.http"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.instagram"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.pushbullet"
+  },
+  {
+    "fields": {
+      "options": "{}"
+    },
+    "model": "helper.agentconfig",
+    "pk": "helper.agents.test"
+  }
+]
