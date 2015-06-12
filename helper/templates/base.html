@@ -72,10 +72,20 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
             <li class="{% block menu_task_class %}{% endblock %}">
               <a href="{% url 'task_pair_list'%}">Tasks</a></li>
             <li class="{% block menu_agent_class %}{% endblock %}">
               <a href="{% url 'agent_config_list'%}">Agents</a></li>
+            {% else %}
+            <li class="active"><a>Login</a></li>
+            {% endif %}
+          </ul>
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
+          <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'logout'%}">Logout</a></li>
+            {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
