@@ -21,7 +21,7 @@ setup(
     author='Daniel Schep',
     author_email='dschep@gmail.com',
 
-    license='MIT',
+    license='GPL',
 
     classifiers=[
         'Development Status :: 3 - Alpha',
