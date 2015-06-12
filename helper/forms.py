@@ -29,6 +29,6 @@ class AgentConfigUpdateForm(forms.ModelForm):
 class TaskPairUpdateForm(forms.ModelForm):
     class Meta:
         model = TaskPair
-        fields = ['enabled', 'effect_agent', 'cause_task', 'cause_options',
+        fields = ['enabled', 'cause_agent', 'cause_task', 'cause_options',
                   'effect_agent', 'effect_task', 'effect_options']
     helper = horizontal_bs3_layout_helper
