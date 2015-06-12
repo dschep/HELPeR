@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Agent configs - {{ block.super }}{% endblock %}
+
+{% block menu_agent_class %}active{% endblock %}
+
+{% block content %}
+    {% for object in object_list %}
+        <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
+        <div class="panel panel-default panel-card agent_config">
+            <div class="panel-body">
+                {% if object.configured %}✓{% else %}✗{% endif %}
+                    {{ object }}
+            </div>
+        </div>
+        </a>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ object.name }} config - {{ block.super }}{% endblock %}
+
+{% block menu_agent_class %}active{% endblock %}
+
+{% block content %}
+    <h1>{% if object.configured %}✓{% else %}✗{% endif %}
+        {{ object }} config</h1>
+
+    <div id="custom-actions" class="clearfix form-horizontal">
+        {% for action in object.agent.CONFIG_ACTIONS %}
+            <label class="col-md-2 control-label">CustomAction</label>
+            <div class="col-md-8">
+                    <a href="{% url 'dispatch_agent_config_url' agent_config_id=object.name view_name=action %}">{{ action }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% crispy form form.helper %}
+{% endblock content %}

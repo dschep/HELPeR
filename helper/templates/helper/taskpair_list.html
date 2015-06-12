@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks - {{ block.super }}{% endblock %}
+
+{% block menu_task_class %}active{% endblock %}
+
+{% block content %}
+    {% for object in object_list %}
+        <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
+        <div class="task_pair">
+            <div class="panel panel-default panel-card">
+                <div class="panel-heading">
+                    {% if object.enabled %}✓{% else %}✗{% endif %}
+                    |
+                    {{ object.cause_agent }}
+                    {% if object.schedule %}
+                        | ⏰{{ object.schedule }}min
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    {{ object.cause_name }}
+                </div>
+            </div>
+            <div style="display:inline-block"><i class="glyphicon glyphicon-chevron-right"
+                    style="font-size:50px"></i></div>
+            <div class="panel panel-default panel-card">
+                <div class="panel-heading">
+                    {{ object.effect_agent }}
+                </div>
+                <div class="panel-body">
+                    {{ object.effect_name }}
+                </div>
+            </div>
+        </div>
+        </a>
+    {% endfor %}
+{% endblock content %}
