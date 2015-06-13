@@ -28,7 +28,7 @@ class OAuth2Login(View):
             agent_config.save()
 
             return redirect(reverse('agent_config_detail', kwargs={
-                'pk': agent_config.id}))
+                'pk': agent_config.pk}))
         else:
             return redirect(self.authorization_url +
                             ('?client_id={app_id}&response_type=code'

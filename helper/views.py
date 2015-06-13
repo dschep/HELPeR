@@ -43,7 +43,7 @@ class TaskPairDetailView(UpdateView):
 
 
 def dispatch_agent_config_url(request, agent_config_id, view_name):
-    agent_config = get_object_or_404(AgentConfig, id=agent_config_id)
+    agent_config = get_object_or_404(AgentConfig, pk=agent_config_id)
     if view_name not in getattr(
             agent_config.agent, 'CONFIG_ACTIONS', []):
         raise Http404
