@@ -24,7 +24,7 @@ class AgentConfig(models.Model):
     def clean(self):
         try:
             self.agent
-        except ImportError:
+        except (ImportError, ValueError):
             raise ValidationError(
                 '"{}" is not a valid agent'.format(self.name))
 
