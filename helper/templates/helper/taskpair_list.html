@@ -10,12 +10,17 @@
         <div class="task_pair">
             <div class="panel panel-default panel-card">
                 <div class="panel-heading">
-                    {% if object.enabled %}✓{% else %}✗{% endif %}
-                    |
-                    {{ object.cause_agent }}
                     {% if object.schedule %}
-                        | ⏰{{ object.schedule }}min
+                        {% if object.enabled %}
+                        <i class="glyphicon glyphicon-play" style="color:green"></i>
+                        {% else %}
+                        <i class="glyphicon glyphicon-pause" style="color:red"></i>
+                        {% endif %}
+                        |
+                        ⏰{{ object.schedule }}min
+                        |
                     {% endif %}
+                    {{ object.cause_agent }}
                 </div>
                 <div class="panel-body">
                     {{ object.cause_name }}

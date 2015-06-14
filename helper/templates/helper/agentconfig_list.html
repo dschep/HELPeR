@@ -9,8 +9,12 @@
         <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
         <div class="panel panel-default panel-card agent_config">
             <div class="panel-body">
-                {% if object.configured %}✓{% else %}✗{% endif %}
-                    {{ object }}
+                {% if object.configured %}
+                <i class="glyphicon glyphicon-ok-sign" style="color:green"></i>
+                {% else %}
+                <i class="glyphicon glyphicon-warning-sign" style="color:red"></i>
+                {% endif %}
+                {{ object }}
             </div>
         </div>
         </a>
