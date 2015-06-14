@@ -25,8 +25,8 @@ class AgentConfigDetailView(UpdateView):
     template_name_suffix = '_detail'
     form_class = AgentConfigUpdateForm
 
-    def get_success_url(object):
-        return reverse('agent_config_list')
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
 
 class TaskPairListView(ListView):

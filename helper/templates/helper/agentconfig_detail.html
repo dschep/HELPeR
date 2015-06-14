@@ -6,17 +6,16 @@
 {% block menu_agent_class %}active{% endblock %}
 
 {% block content %}
-    <h1>{% if object.configured %}✓{% else %}✗{% endif %}
+    <h1>
+
+        {% if object.configured %}
+        <i class="glyphicon glyphicon-ok-sign" style="color:green"></i>
+        {% else %}
+        <i class="glyphicon glyphicon-warning-sign" style="color:red"></i>
+        {% endif %}
         {{ object }} config</h1>
 
-    <div id="custom-actions" class="clearfix form-horizontal">
-        {% for action in object.agent.CONFIG_ACTIONS %}
-            <label class="col-md-2 control-label">CustomAction</label>
-            <div class="col-md-8">
-                    <a href="{% url 'dispatch_agent_config_url' agent_config_id=object.name view_name=action %}">{{ action }}</a>
-            </div>
-        {% endfor %}
-    </div>
 
-    {% crispy form form.helper %}
+
+    {% crispy form %}
 {% endblock content %}
