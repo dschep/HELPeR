@@ -1,0 +1,5 @@
+[program:helper-worker]
+command=env DJANGO_SETTINGS_MODULE=helper.settings {{ BASE_DIR }}/venv/bin/celery worker -A helper -l info -B -c {{ concurency }}
+directory={{ BASE_DIR }}
+user={{ USER }}
+autostart={{ autostart }}

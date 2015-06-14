@@ -1,0 +1,43 @@
+---
+
+- name: install python pkgs
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - libpq-dev
+    - python3
+    - python3-dev
+    - python-pip
+    - python-virtualenv
+    - git
+
+
+- name: setup virtualenv
+  sudo: no
+  pip: >
+      requirements={{ BASE_DIR }}/requirements.txt
+      virtualenv={{ BASE_DIR }}/venv
+      virtualenv_command="virtualenv -p/usr/bin/python3"
+
+- name: install HELPeR
+  sudo: no
+  pip: >
+      name='-e {{ BASE_DIR }}'
+      virtualenv={{ BASE_DIR }}/venv
+      virtualenv_command="virtualenv -p/usr/bin/python3"
+
+- name: migrate & collectstatic
+  sudo_user: "{{ USER }}"
+  django_manage: >
+      command={{ item }}
+      app_path={{ BASE_DIR }}
+      settings=helper.settings
+      virtualenv={{ BASE_DIR }}/venv
+  with_items:
+    - migrate
+    - collectstatic
+- name: install supervisor
+  apt: pkg=supervisor state=present
+- name: supervisor config
+  template: src=supervisor.j2 dest=/etc/supervisor/conf.d/helper-app.conf
+  notify:
+    - reload supervisor

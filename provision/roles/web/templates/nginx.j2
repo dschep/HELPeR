@@ -1,0 +1,18 @@
+server {
+    listen {{ port }};
+    server_name {{ hostname }};
+
+    keepalive_timeout 5;
+
+    location /media/ {
+        alias {{ BASE_DIR }}/media/;
+    }
+
+    location /static/ {
+        alias {{ BASE_DIR }}/static/;
+    }
+
+    location / {
+        proxy_pass http://{{ bind }}:/;
+    }
+}

@@ -56,3 +56,13 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# virtualenv
+venv/
+
+# vagrant
+.vagrant/
+vagrant_ansible_inventory_vagrant
+
+#celery beat
+celerybeat-schedule

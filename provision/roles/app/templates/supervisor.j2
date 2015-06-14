@@ -1,0 +1,5 @@
+[program:helper-app]
+command={{ BASE_DIR }}/venv/bin/gunicorn helper.wsgi --bind unix:/tmp/helper.sock -t 60 -w {{ concurency }}
+directory={{ BASE_DIR }}
+user={{ USER }}
+autostart={{ autostart }}

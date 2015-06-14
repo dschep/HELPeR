@@ -1,0 +1,19 @@
+---
+- name: install postgres/postgis pkgs
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - postgresql
+    - postgresql-contrib-9.3
+    - libpq-dev
+    - python-psycopg2
+
+- name: create db user
+  sudo_user: postgres
+  postgresql_user: name={{ USER }}
+
+- name: create db
+  sudo_user: postgres
+  postgresql_db: name=helper
+                 owner={{ USER }}
+                 encoding='UTF-8'
+                 template='template0'

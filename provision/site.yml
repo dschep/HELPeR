@@ -1,0 +1,19 @@
+---
+- hosts: vagrant
+  sudo: yes
+  roles:
+    - vagrant
+    - web
+    - db
+    - app
+    - msg_broker
+    - worker
+- hosts: linode.schep.me
+  sudo: yes
+  roles:
+    - linode
+    - web
+    - db
+    - app
+    - msg_broker
+    - worker

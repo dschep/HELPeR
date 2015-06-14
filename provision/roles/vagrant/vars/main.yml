@@ -1,0 +1,8 @@
+---
+BASE_DIR: /vagrant
+USER: vagrant
+hostname: _
+port: 8000
+bind: unix:/tmp/helper.sock
+autostart: false
+concurency: 1
