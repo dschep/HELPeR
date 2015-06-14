@@ -4,15 +4,15 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.http import Http404, HttpResponseNotAllowed, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 
 from stronghold.decorators import public
 
 from .models import AgentConfig, TaskPair
-from .forms import AgentConfigUpdateForm, TaskPairUpdateForm
+from .forms import AgentConfigUpdateForm, AgentConfigCreateForm, TaskPairUpdateForm
 
 
 
@@ -27,6 +27,15 @@ class AgentConfigDetailView(UpdateView):
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+
+
+class AgentConfigDeleteView(DeleteView):
+    model = AgentConfig
+    success_url = reverse_lazy('agent_config_list')
+
+class AgentConfigCreateView(CreateView):
+    model = AgentConfig
+    form_class = AgentConfigCreateForm
 
 
 class TaskPairListView(ListView):

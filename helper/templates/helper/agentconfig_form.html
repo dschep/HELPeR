@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Add agent config - {{ block.super }}{% endblock %}
+
+{% block menu_agent_class %}active{% endblock %}
+
+{% block content %}
+    {% crispy form %}
+{% endblock content %}

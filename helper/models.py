@@ -13,7 +13,7 @@ from helper.utils.dedup.tasks import dedup_effect_wrapper
 
 class AgentConfig(models.Model):
     name = models.CharField(max_length=255, primary_key=True)
-    options = HStoreField()
+    options = HStoreField(null=True)
 
     def __str__(self):
         return self.name.rsplit('.', 1)[-1].capitalize()
@@ -38,6 +38,8 @@ class AgentConfig(models.Model):
 
     @property
     def configured(self):
+        if not self.options:
+            return not self.agent.CONFIG_KEYS
         return (set(getattr(self.agent, 'CONFIG_KEYS', []))
                 <= set(self.options.keys()))
 

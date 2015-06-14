@@ -5,6 +5,10 @@
 {% block menu_agent_class %}active{% endblock %}
 
 {% block content %}
+    <p class="clearfix">
+        <a class="btn btn-primary btn-lg" style="float:right"
+            href="{% url 'agent_config_create' %}">Configure new Agent</a>
+    </p>
     {% for object in object_list %}
         <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
         <div class="panel panel-default panel-card agent_config">

@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 from .views import (AgentConfigDetailView, AgentConfigListView,
+                    AgentConfigDeleteView, AgentConfigCreateView,
                     TaskPairDetailView, TaskPairListView)
 
 
@@ -16,9 +17,15 @@ urlpatterns = [
     url(r'^agent/?$',
         AgentConfigListView.as_view(),
         name='agent_config_list'),
+    url(r'^agent/add/?$',
+        AgentConfigCreateView.as_view(),
+        name='agent_config_create'),
     url(r'^agent/(?P<pk>[a-zA-Z.]+)/?$',
         AgentConfigDetailView.as_view(),
         name='agent_config_detail'),
+    url(r'^agent/(?P<pk>[a-zA-Z.]+)/delete/?$',
+        AgentConfigDeleteView.as_view(),
+        name='agent_config_delete'),
     # agentconfig custom view
     url(r'^agent/(?P<agent_config_id>[a-zA-Z.]+)/(?P<view_name>\w+)',
         'helper.views.dispatch_agent_config_url',
