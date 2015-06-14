@@ -15,6 +15,11 @@
         {% endif %}
         {{ object }} config</h1>
 
+    <div class="well">
+    {% with "helper/agent_help/"|add:object.name|add:".html" as template %}
+        {% include template %}
+    {% endwith %}
+    </div>
 
 
     {% crispy form %}
