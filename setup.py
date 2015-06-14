@@ -37,6 +37,6 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=['django', 'requests', 'celery', 'django-stronghold',
-                      'django-tastypie', 'psycopg2'],
+    install_requires=['django', 'requests', 'celery',
+                      'django-stronghold', 'psycopg2'],
 )
