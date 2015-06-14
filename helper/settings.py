@@ -79,6 +79,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '.'
 
 
 # don't redirect to HTTP when accessed via an HTTPS proxy
