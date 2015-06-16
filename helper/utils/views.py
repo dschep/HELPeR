@@ -8,6 +8,7 @@ class OAuth2Login(View):
     authorization_url = None
     token_url = None
     extra_save = None
+    scopes = None
 
     def get(self, request, agent_config):
         if 'code' in request.GET:
@@ -18,6 +19,8 @@ class OAuth2Login(View):
                 'redirect_uri': request.build_absolute_uri().split('?')[0],
                 'grant_type': 'authorization_code',
             }
+            if self.scopes is not None:
+                params['scope'] = ','.join(self.scopes)
             resp = requests.post(self.token_url, data=params)
             resp.raise_for_status()
 
