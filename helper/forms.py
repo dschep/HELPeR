@@ -107,13 +107,14 @@ def submit_buttons_from_choicefield(name, choicefield, prefix=None):
 
 
 class TaskPairChooseCauseAgentForm(forms.Form):
-    cause_agent = forms.ModelChoiceField(
-        queryset=AgentConfig.objects.filter(pk__in=[
-            agent.pk for agent in AgentConfig.objects.all()
-            if len(agent.agent.CAUSE_TASKS) > 0]),
-        empty_label=None)
+    cause_agent = forms.ModelChoiceField(queryset=AgentConfig.objects.all(),
+                                         empty_label=None)
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
+        self.fields['cause_agent'].queryset = AgentConfig.objects.filter(
+            pk__in=[agent.pk for agent in AgentConfig.objects.all()
+                    if len(agent.agent.CAUSE_TASKS) > 0]
+        )
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
@@ -201,13 +202,14 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
         return cleaned_data
 
 class TaskPairChooseEffectAgentForm(TaskPairCauseOptionsForm):
-    effect_agent = forms.ModelChoiceField(
-        queryset=AgentConfig.objects.filter(pk__in=[
-            agent.pk for agent in AgentConfig.objects.all()
-            if len(agent.agent.EFFECT_TASKS) > 0]),
-        empty_label=None)
+    effect_agent = forms.ModelChoiceField(queryset=AgentConfig.objects.all(),
+                                          empty_label=None)
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
+        self.fields['effect_agent'].queryset = AgentConfig.objects.filter(
+            pk__in=[agent.pk for agent in AgentConfig.objects.all()
+                    if len(agent.agent.EFFECT_TASKS) > 0]
+        )
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
