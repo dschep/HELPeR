@@ -1,5 +1,3 @@
-SECRET_KEY = 'lt#2nl*x^ib*emo^hwq8k5ztzzf@3e)y7--1s)^_b=@yf&ag)@'
-
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']

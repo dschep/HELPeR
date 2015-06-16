@@ -5,8 +5,9 @@
     - vagrant
     - web
     - db
-    - app
     - msg_broker
+    - common
+    - app
     - worker
 - hosts: linode.schep.me
   sudo: yes
@@ -14,6 +15,7 @@
     - linode
     - web
     - db
-    - app
     - msg_broker
+    - common
+    - app
     - worker

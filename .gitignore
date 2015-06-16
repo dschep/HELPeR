@@ -66,3 +66,7 @@ vagrant_ansible_inventory_vagrant
 
 #celery beat
 celerybeat-schedule
+
+# provisioned project files
+manage.py
+project
