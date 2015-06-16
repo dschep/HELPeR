@@ -45,6 +45,7 @@ def check_uploaded_photos(access_token, paginate=False, task_pair_id=None, **ext
     return list(_check_photos(access_token, paginate,
                               url='https://api.instagram.com/v1/users/self/media/recent',
                               taskname='check_uploaded_photos'))
+check_uploaded_photos.event_keys = ['name', 'image', 'date', 'id']
 
 @dedup('id')
 @schedule(5)
@@ -60,3 +61,4 @@ def check_liked_photos(access_token, paginate=False, task_pair_id=None, **extra_
     return list(_check_photos(access_token, paginate,
                               url='https://api.instagram.com/v1/users/self/media/liked',
                               taskname='check_uploaded_photos'))
+check_liked_photos.event_keys = ['name', 'image', 'date', 'id']
