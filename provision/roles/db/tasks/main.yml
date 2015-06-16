@@ -1,5 +1,5 @@
 ---
-- name: install postgres/postgis pkgs
+- name: install postgres
   apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
   with_items:
     - postgresql
@@ -17,3 +17,8 @@
                  owner={{ USER }}
                  encoding='UTF-8'
                  template='template0'
+
+- name: install hstore
+  sudo_user: postgres
+  postgresql_ext: name=hstore
+                  db=helper
