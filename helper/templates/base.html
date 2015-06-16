@@ -30,21 +30,60 @@
         .content {
             padding-top: 30px;
         }
+        .task_pair {
+            display: inline-block;
+            float: left;
+            padding-right: 20px;
+        }
         .panel-card {
             display: inline-block;
+        }
+        .task_pair .panel-card {
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+        .task_pair .task-pair-arrow {
+            font-size: 50px;
+            margin: 75px -25px 0;
+            float: left;
+        }
+        .task_pair .panel-card:last-child {
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .task_pair .panel-card:last-child > * {
+            padding-left: 40px;
+        }
+        .task_pair .panel-card:first-child {
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .task_pair .panel-card:first-child > * {
+            padding-right: 35px;
         }
         .panel-card .panel-body {
             display: inline-block;
         }
         .agent_config .panel-body {
-          font-size: 2em
+          font-size: 2em;
         }
         .task_pair .panel-body {
-          font-size: 1.5em
+          font-size: 1.5em;
+          width: 100%;
         }
         .panel-card .panel-heading {
             padding: 4px 6px;
-            font-size: .9em;
+            font-size: 1em;
+        }
+        .panel-card ul.task-options {
+            padding-left: 15px;
+            list-style-type: none;
+            font-size: .5em;
+            color: black !important;
+            overflow: auto;
         }
     </style>
 

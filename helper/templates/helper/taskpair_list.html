@@ -4,43 +4,54 @@
 
 {% block menu_task_class %}active{% endblock %}
 
+
 {% block content %}
     <p class="clearfix">
         <a class="btn btn-primary btn-lg" style="float:right"
             href="{% url 'task_pair_create' %}">Create new Task</a>
     </p>
+    <div class="task-pairs">
     {% for object in object_list %}
-        <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
-        <div class="task_pair">
-            <div class="panel panel-default panel-card">
-                <div class="panel-heading">
-                    {% if object.schedule %}
-                        {% if object.enabled %}
-                        <i class="glyphicon glyphicon-play" style="color:green"></i>
-                        {% else %}
-                        <i class="glyphicon glyphicon-pause" style="color:red"></i>
-                        {% endif %}
-                        |
-                        ⏰{{ object.schedule }}min
-                        |
+    <a href="{{ object.get_absolute_url }}" style="text-decoration:none"
+            class="task_pair">
+        <div class="panel panel-default panel-card">
+            <div class="panel-heading">
+                {% if object.schedule %}
+                    {% if object.enabled %}
+                    <i class="glyphicon glyphicon-play" style="color:green"></i>
+                    {% else %}
+                    <i class="glyphicon glyphicon-pause" style="color:red"></i>
                     {% endif %}
-                    {{ object.cause_agent }}
-                </div>
-                <div class="panel-body">
-                    {{ object.cause_name }}
-                </div>
+                    |
+                    ⏰{{ object.schedule }}min
+                    |
+                {% endif %}
+                {{ object.cause_agent }}
             </div>
-            <div style="display:inline-block"><i class="glyphicon glyphicon-chevron-right"
-                    style="font-size:50px"></i></div>
-            <div class="panel panel-default panel-card">
-                <div class="panel-heading">
-                    {{ object.effect_agent }}
-                </div>
-                <div class="panel-body">
-                    {{ object.effect_name }}
-                </div>
+            <div class="panel-body">
+                {{ object.cause_name }}
+                <ul class="task-options">
+                    {% for key, value in object.cause_options.items %}
+                    <li>{{ key }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <i class="glyphicon glyphicon-circle-arrow-right task-pair-arrow"></i>
+        <div class="panel panel-default panel-card">
+            <div class="panel-heading">
+                {{ object.effect_agent }}
+            </div>
+            <div class="panel-body">
+                {{ object.effect_name }}
+                <ul class="task-options">
+                    {% for key, value in object.effect_options.items %}
+                    <li>{{ key }}: {{ value }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
         </a>
     {% endfor %}
+    </div>
 {% endblock content %}
