@@ -362,8 +362,8 @@ class TaskPairUpdateForm(forms.ModelForm):
                      *effect_fields),
             FormActions(
                 Submit('save', 'Save'),
-                #Button('delete', 'Delete', css_class='btn-danger',
-                       #onClick=("javascript:window.location.href+='/delete'"))
+                Button('delete', 'Delete', css_class='btn-danger',
+                       onClick=("javascript:window.location.href+='/delete'"))
             ),
         )
 

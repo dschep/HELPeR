@@ -48,6 +48,11 @@ class TaskPairListView(ListView):
     model = TaskPair
 
 
+class TaskPairDeleteView(DeleteView):
+    model = TaskPair
+    success_url = reverse_lazy('task_pair_list')
+
+
 class TaskPairWizard(SessionWizardView):
     form_list = [TaskPairChooseCauseAgentForm, TaskPairChooseCauseTaskForm,
                  TaskPairCauseOptionsForm,
