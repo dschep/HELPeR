@@ -178,7 +178,7 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
 
     def clean(self):
         cleaned_data = super(TaskPairCauseOptionsForm, self).clean()
-        cause_options = {k: v for k, v in cleaned_data.items()
+        cause_options = {k.split('-', 2)[2]: v for k, v in cleaned_data.items()
                          if k.startswith('cause-opt-')}
         cleaned_data['cause_options'] = cause_options
         cleaned_data = {k: v for k, v in cleaned_data.items()
@@ -281,7 +281,7 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
 
     def clean(self):
         cleaned_data = super(TaskPairEffectOptionsForm, self).clean()
-        effect_options = {k: v for k, v in cleaned_data.items()
+        effect_options = {k.split('-', 2)[2]: v for k, v in cleaned_data.items()
                           if k.startswith('effect-opt-')}
         cleaned_data['effect_options'] = effect_options
         cleaned_data = {k: v for k, v in cleaned_data.items()
