@@ -15,6 +15,6 @@ def send_file_to_dropbox(data, task_pair_id, access_token,
     file_path = file_path.encode('ascii', errors='replace').decode()
     resp = requests.get(data[url.format(**data)])
     resp.raise_for_status()
-    response = client.put_file(file_path, resp.content)
+    response = client.put_file(file_path, resp.content, overwrite=True)
 
 send_file_to_dropbox.options = ['filename', 'path', 'url']
