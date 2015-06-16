@@ -195,7 +195,7 @@ class TaskPairChooseEffectAgentForm(TaskPairCauseOptionsForm):
     effect_agent = forms.ModelChoiceField(
         queryset=AgentConfig.objects.filter(pk__in=[
             agent.pk for agent in AgentConfig.objects.all()
-            if len(agent.agent.CAUSE_TASKS) > 0]),
+            if len(agent.agent.EFFECT_TASKS) > 0]),
         empty_label=None)
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
