@@ -1,15 +1,15 @@
 <p>
-Then create an app at <a target="_blank"
+Create an app at <a target="_blank"
 href="https://instagram.com/developer/clients/manage/">https://instagram.com/developer/clients/manage/</a>
 </p>
 <p>
 Add website as a platorm with
 <kbd>{{ request.scheme }}://{{ request.get_host }}/</kbd>
-as the website and add <kbd>{{ request.get_host }}</kbd> (don't include
-port numbers) as an App Domain.
+as the website and add <kbd>{{ request.scheme }}://{{ request.get_host }}{% url 'dispatch_agent_config_url' agent_config_id=object.pk view_name=object.agent.ACTION_CONFIG_KEYS.access_token %}</kbd>
+as an Redirect URI.
 </p>
 <p>
-Then enter the <kbd>App id</kbd> and <kbd>App secret</kbd> bellow. Then click
-the Refresh button next to <kbd>Access token</kbd> to connect to your Facebook
-account.
+Then enter the <kbd>App id</kbd>(client id) and <kbd>App secret</kbd>(client
+secret) bellow. Then click the Refresh button next to <kbd>Access token</kbd>
+to connect to your Instagram account.
 </p>
