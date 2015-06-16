@@ -6,7 +6,7 @@ from dropbox.client import DropboxClient
 
 
 @shared_task
-def send_send_file_from_url_to_dropbox(data, task_pair_id, access_token,
+def send_file_to_dropbox(data, task_pair_id, access_token,
                                        filename, path, url):
     client = DropboxClient(access_token)
     file_path = posixpath.join(path.format(**data),
@@ -17,5 +17,5 @@ def send_send_file_from_url_to_dropbox(data, task_pair_id, access_token,
     resp.raise_for_status()
     response = client.put_file(file_path, resp.content)
 
-#send_send_file_from_url_to_dropbox.verbose_name =
-send_send_file_from_url_to_dropbox.options = ['filename', 'path', 'url']
+#send_file_to_dropbox.verbose_name =
+send_file_to_dropbox.options = ['filename', 'path', 'url']
