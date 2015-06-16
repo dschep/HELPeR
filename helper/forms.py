@@ -254,13 +254,15 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                   'effect_agent', 'effect_task']
         if ('cause_agent' in kwargs.get('initial', {})
                 and 'cause_task' in kwargs.get('initial', {})):
+            agent = AgentConfig.objects.get(pk=kwargs['initial']['cause_agent'])
             tasks_module = import_module(kwargs['initial']['cause_agent'] +
                                          '.tasks')
             task = getattr(tasks_module, kwargs['initial']['cause_task'])
             fields.append(HTML("""
                             <div class="alert alert-info" role="alert">
                                <p>
-                                The Cause Task makes the following keys
+                                The <strong>{agent}</strong>:{task} Cause Task
+                                makes the following keys
                                 available for use in Effect options: {keys}
                                </p>
                                <p>
@@ -273,6 +275,8 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                                        keys=', '.join(
                                            '<kbd>{}</kbd>'.format(key)
                                            for key in task.event_keys),
+                                       agent=agent,
+                                       task=kwargs['initial']['cause_task'],
                                        )))
         if ('effect_agent' in kwargs.get('initial', {})
                 and 'effect_task' in kwargs.get('initial', {})):
