@@ -1,6 +1,14 @@
 
 #HELPeR
 
+HELPeR is a personal IFTTT clone because who wants to give a corporation access
+to *ALL* your online accounts?!
+
+## Screenshots
+* http://i.imgur.com/iJobYzI.png
+* http://i.imgur.com/yJrQfm7.png
+* http://i.imgur.com/yt4dpB5.png
+
 ## Agents
 HELPeR consists of Agents. Agents should be a python module. For the purposes
 of this README we'll be discussing a hypothetical Agent called `foobar`.
