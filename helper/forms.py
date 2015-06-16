@@ -94,23 +94,6 @@ class AgentConfigUpdateForm(forms.ModelForm):
                 self.cleaned_data['options'][key] = self.instance.options[key]
 
 
-task_pair_wizard_layout_helper = FormHelper()
-task_pair_wizard_layout_helper.form_tag = False
-task_pair_wizard_layout_helper.label_class = 'col-md-2'
-task_pair_wizard_layout_helper.field_class = 'col-md-8'
-task_pair_wizard_layout_helper.add_input(Submit('submit', 'Continue'))
-
-def task_pair_agent_chooser_helper_factory(title, choices, prefix, field, *extra_fields):
-    helper = FormHelper()
-    helper.form_tag = False
-    agent_buttons = [StrictButton(label, name='{}-{}'.format(
-                     prefix, field), value=value, type='submit',
-                     css_class='btn-lg')
-                     for value, label in choices]
-    agent_fieldset = Fieldset(title,
-        *agent_buttons, css_class='agent-chooser')
-    helper.layout = Layout(*(list(extra_fields) + [agent_fieldset]))
-    return helper
 def submit_buttons_from_choicefield(name, choicefield, prefix=None):
     name_fmt = '{prefix}-{name}' if prefix else '{name}'
     return [
