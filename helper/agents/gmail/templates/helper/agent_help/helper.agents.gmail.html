@@ -1,0 +1,19 @@
+<p>
+Create a Gmail at <a target="_blank"
+href="https://console.developers.google.com/start/api?id=gmail">https://console.developers.google.com/start/api?id=gmail</a>
+</p>
+<p>
+Create an OAuth Client ID and 
+<kbd>{{ request.scheme }}://{{ request.get_host }}/</kbd>
+as the website and add <kbd>{{ request.scheme }}://{{ request.get_host }}{% url 'dispatch_agent_config_url' agent_config_id=object.pk view_name=object.agent.ACTION_CONFIG_KEYS.access_token %}</kbd>
+as an Redirect URI.
+</p>
+<p>
+Then enter the <kbd>App id</kbd> (client id) and <kbd>App secret</kbd> (client
+secret) bellow.
+</p><p>Then click the Refresh button next to <kbd>Access token</kbd>
+to connect to your Gmail account.
+</p>
+<p>
+Enter your email address in <kbd>from</kbd>
+</p>

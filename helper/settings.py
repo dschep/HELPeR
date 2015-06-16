@@ -20,6 +20,7 @@ INSTALLED_APPS = (
     'helper.agents.pushbullet',
     'helper.agents.github',
     'helper.agents.dropbox',
+    'helper.agents.gmail',
     'helper.agents.wmata',
     'helper.agents.http',
     'helper.agents.test',
