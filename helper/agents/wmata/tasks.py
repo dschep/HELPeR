@@ -8,7 +8,7 @@ from helper.utils.dedup.decorators import dedup
 @dedup('id')
 @schedule(1)
 @shared_task
-def rail_incident(api_key, task_pair_id):
+def rail_incident(api_key, line, task_pair_id):
     resp = requests.get('https://api.wmata.com/Incidents.svc/json/Incidents',
                         headers={'api_key': api_key})
     resp.raise_for_status()
@@ -16,6 +16,8 @@ def rail_incident(api_key, task_pair_id):
     events = []
     for incident in resp.json().get('Incidents', []):
         lines = [l.strip() for l in incident['LinesAffected'].split(';') if l.strip()]
+        if line not in lines:
+            continue
         events.append({
             'id': incident['IncidentID'],
             'lines': ','.join(lines),
@@ -24,3 +26,5 @@ def rail_incident(api_key, task_pair_id):
         })
     return events
 rail_incident.event_keys = ['id', 'lines', 'description', 'date_updated']
+rail_incident.options = ['line']
+rail_incident.help = 'line must be one of: RD, BL, YL, GR, OR, SV'
