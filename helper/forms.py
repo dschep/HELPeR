@@ -353,7 +353,7 @@ class TaskPairUpdateForm(forms.ModelForm):
                             """))
 
         self.helper.layout = Layout(
-            'enabled',
+            Fieldset('Task Options', 'enabled'),
             Fieldset('<strong>{}</strong> {}'.format(self.instance.cause_agent,
                                                      self.instance.cause_task),
                      *cause_fields),

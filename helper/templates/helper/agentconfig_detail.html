@@ -6,14 +6,14 @@
 {% block menu_agent_class %}active{% endblock %}
 
 {% block content %}
-    <h1>
-
+    <fieldset><legend>
+        {{ object }} config
         {% if object.configured %}
         <i class="glyphicon glyphicon-ok-sign" style="color:green"></i>
         {% else %}
         <i class="glyphicon glyphicon-warning-sign" style="color:red"></i>
         {% endif %}
-        {{ object }} config</h1>
+</legend></fieldset>
 
     <div class="well">
     {% with "helper/agent_help/"|add:object.name|add:".html" as template %}
