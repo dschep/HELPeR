@@ -16,6 +16,9 @@ horizontal_bs3_layout_helper.label_class = 'col-md-2'
 horizontal_bs3_layout_helper.field_class = 'col-md-8'
 horizontal_bs3_layout_helper.add_input(Submit('submit', 'Save'))
 
+def format_task_name(task_name):
+        return task_name.replace('_', ' ').capitalize()
+
 
 class AgentConfigCreateForm(forms.ModelForm):
     name = forms.ChoiceField()
@@ -97,7 +100,7 @@ class AgentConfigUpdateForm(forms.ModelForm):
 def submit_buttons_from_choicefield(name, choicefield, prefix=None):
     name_fmt = '{prefix}-{name}' if prefix else '{name}'
     return [
-        StrictButton(label, value=value, type='submit',
+        StrictButton(format_task_name(label), value=value, type='submit',
                      name=name_fmt.format(name=name, prefix=prefix))
         for value, label in choicefield.choices
     ]
@@ -354,11 +357,11 @@ class TaskPairUpdateForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Fieldset('Task Options', 'enabled'),
-            Fieldset('<strong>{}</strong> {}'.format(self.instance.cause_agent,
-                                                     self.instance.cause_task),
+            Fieldset('<strong>{}</strong>:{}'.format(self.instance.cause_agent,
+                                                     self.instance.cause_name),
                      *cause_fields),
-            Fieldset('<strong>{}</strong> {}'.format(self.instance.effect_agent,
-                                                     self.instance.effect_task),
+            Fieldset('<strong>{}</strong>:{}'.format(self.instance.effect_agent,
+                                                     self.instance.effect_name),
                      *effect_fields),
             FormActions(
                 Submit('save', 'Save'),

@@ -17,5 +17,4 @@ def send_file_to_dropbox(data, task_pair_id, access_token,
     resp.raise_for_status()
     response = client.put_file(file_path, resp.content)
 
-#send_file_to_dropbox.verbose_name =
 send_file_to_dropbox.options = ['filename', 'path', 'url']

@@ -108,17 +108,11 @@ class TaskPair(models.Model):
 
     @property
     def cause_name(self):
-        if hasattr(self.cause, 'verbose_name'):
-            return self.cause.verbose_name
-        else:
-            return self.cause_task.replace('_', ' ').capitalize()
+        return self.cause_task.replace('_', ' ').capitalize()
 
     @property
     def effect_name(self):
-        if hasattr(self.effect, 'verbose_name'):
-            return self.effect.verbose_name
-        else:
-            return self.effect_task.replace('_', ' ').capitalize()
+        return self.effect_task.replace('_', ' ').capitalize()
 
     @property
     def schedule(self):
