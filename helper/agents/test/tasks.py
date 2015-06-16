@@ -9,6 +9,7 @@ from celery import shared_task
 @shared_task
 def get_fixtures(fixtures=None, task_pair_id=None):
     return json.loads(fixtures)
+get_fixtures.event_keys = []
 
 
 @shared_task
