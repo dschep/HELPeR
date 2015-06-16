@@ -84,6 +84,8 @@ STATIC_ROOT = '.'
 
 # don't redirect to HTTP when accessed via an HTTPS proxy
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# don't barf on redirects cause of nginx
+USE_X_FORWARDED_HOST = True
 
 
 # custom celery scheduling
