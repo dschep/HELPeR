@@ -164,11 +164,20 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
         self.helper.label_class = 'col-md-2'
         self.helper.field_class = 'col-md-8'
         fields = ['cause_agent', 'cause_task']
-        if ('cause_agent' in kwargs.get('initial', {})
-                and 'cause_task' in kwargs.get('initial', {})):
-            tasks_module = import_module(kwargs['initial']['cause_agent'] +
+
+        predefined_fields = {}
+        for key in ['cause_agent', 'cause_task']:
+            if key in kwargs.get('initial', {}):
+                predefined_fields[key] = kwargs['initial'][key]
+            elif 'prefix' in kwargs and '{}-{}'.format(kwargs['prefix'], key) in self.data:
+                predefined_fields[key] = self.data['{}-{}'.format(kwargs['prefix'], key)]
+            elif key in self.data:
+                predefined_fields[key] = self.data[key]
+
+        if set(['cause_agent', 'cause_task']) <= set(predefined_fields):
+            tasks_module = import_module(predefined_fields['cause_agent'] +
                                          '.tasks')
-            task = getattr(tasks_module, kwargs['initial']['cause_task'])
+            task = getattr(tasks_module, predefined_fields['cause_task'])
             for option in getattr(task, 'options', []):
                 self.fields['cause-opt-'+option] = forms.CharField(
                     label=option)
@@ -248,12 +257,24 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
         self.helper.field_class = 'col-md-8'
         fields = ['cause_agent', 'cause_task', 'cause_options',
                   'effect_agent', 'effect_task']
-        if ('cause_agent' in kwargs.get('initial', {})
-                and 'cause_task' in kwargs.get('initial', {})):
-            agent = AgentConfig.objects.get(pk=kwargs['initial']['cause_agent'])
-            tasks_module = import_module(kwargs['initial']['cause_agent'] +
+        ## sometimes data is missing from initial but is in self.data..
+        predefined_fields = {}
+        for key in ['cause_agent', 'cause_task',
+                    'effect_agent', 'effect_task']:
+            if key in kwargs.get('initial', {}):
+                predefined_fields[key] = kwargs['initial'][key]
+                continue
+            elif 'prefix' in kwargs and '{}-{}'.format(kwargs['prefix'], key) in self.data:
+                    predefined_fields[key] = self.data['{}-{}'.format(kwargs['prefix'], key)]
+                    continue
+            elif key in self.data:
+                predefined_fields[key] = self.data[key]
+
+        if set(['cause_agent', 'cause_task']) <= set(predefined_fields):
+            agent = AgentConfig.objects.get(pk=predefined_fields['cause_agent'])
+            tasks_module = import_module(predefined_fields['cause_agent'] +
                                          '.tasks')
-            task = getattr(tasks_module, kwargs['initial']['cause_task'])
+            task = getattr(tasks_module, predefined_fields['cause_task'])
             fields.append(HTML("""
                             <div class="alert alert-info" role="alert">
                                <p>
@@ -272,13 +293,13 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                                            '<kbd>{}</kbd>'.format(key)
                                            for key in task.event_keys),
                                        agent=agent,
-                                       task=kwargs['initial']['cause_task'],
+                                       task=format_task_name(
+                                           predefined_fields['cause_task']),
                                        )))
-        if ('effect_agent' in kwargs.get('initial', {})
-                and 'effect_task' in kwargs.get('initial', {})):
-            tasks_module = import_module(kwargs['initial']['effect_agent'] +
+        if set(['effect_agent', 'effect_task']) <= set(predefined_fields):
+            tasks_module = import_module(predefined_fields['effect_agent'] +
                                          '.tasks')
-            task = getattr(tasks_module, kwargs['initial']['effect_task'])
+            task = getattr(tasks_module, predefined_fields['effect_task'])
             for option in getattr(task, 'options', []):
                 self.fields['effect-opt-'+option] = forms.CharField(
                     label=option)
