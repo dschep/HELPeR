@@ -45,6 +45,7 @@ def check_tagged_photos(access_token, paginate=False, task_pair_id=None, **extra
     """
     return list(_check_photos(access_token, paginate,
                               taskname='check_tagged_photos'))
+check_tagged_photos.event_keys = ['user', 'name', 'image', 'date', 'fbid']
 
 
 @dedup('fbid')
@@ -60,6 +61,7 @@ def check_uploaded_photos(access_token, paginate=False, task_pair_id=None, **ext
     """
     return list(_check_photos(access_token, paginate, {'type': 'uploaded'},
                               taskname='check_uploaded_photos'))
+check_uploaded_photos.event_keys = ['user', 'name', 'image', 'date', 'fbid']
 
 #TODO: adapt post to fb from pirana. low pri bc apps need to be approved :/
 #def recieve_post_to_facebook(self, event):

@@ -10,6 +10,18 @@ def send_push(data, access_token=None, task_pair_id=None, **kwargs):
     )
     resp.raise_for_status()
 
+@shared_task
+def send_note(data, access_token, task_pair_id, title, body):
+    kwargs = {'type': 'note', 'title': title, 'body': body}
+    send_push(data, access_token, task_pair_id, **kwargs)
+send_note.options = ['title', 'body']
+
+@shared_task
+def send_link(data, access_token, task_pair_id, title, body, url):
+    kwargs = {'type': 'link', 'title': title, 'body': body, 'url': url}
+    send_push(data, access_token, task_pair_id, **kwargs)
+send_link.options = ['title', 'body', 'url']
+
 
 @shared_task
 def send_upload_file(data, access_token=None, task_pair_id=None, **kwargs):

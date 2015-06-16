@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Add Task - {{ block.super }}{% endblock %}
+
+{% block menu_task_class %}active{% endblock %}
+
+{% block head %}
+{{ wizard.form.media }}
+{{ block.super }}
+<style>
+.wizard-step {
+    float: right;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<p class="wizard-step">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+{{ wizard.form.errors }}
+    <form action="" method="post" class="form-horizontal">
+        {{ wizard.management_form }}
+        {% if wizard.form.forms %}
+            {{ wizard.form.management_form }}
+            {% for form in wizard.form.forms %}
+                {{ form }}
+            {% endfor %}
+        {% else %}
+            {% crispy wizard.form %}
+        {% endif %}
+    </form>
+{% endblock %}

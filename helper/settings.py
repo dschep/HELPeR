@@ -13,8 +13,8 @@ INSTALLED_APPS = (
     'django.contrib.postgres',
 
     'stronghold',
-    'tastypie',
     'crispy_forms',
+    'formtools',
 
     'helper',
     'helper.agents.facebook',

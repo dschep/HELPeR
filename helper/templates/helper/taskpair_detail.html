@@ -6,7 +6,5 @@
 {% block menu_task_class %}active{% endblock %}
 
 {% block content %}
-    <h1>{{ object }}</h1>
-
-    {% crispy form form.helper %}
+    {% crispy form %}
 {% endblock content %}

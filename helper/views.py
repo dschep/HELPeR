@@ -1,6 +1,6 @@
 from importlib import import_module
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -9,10 +9,16 @@ from django.http import Http404, HttpResponseNotAllowed, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse, reverse_lazy
 
+from formtools.wizard.views import SessionWizardView
 from stronghold.decorators import public
 
 from .models import AgentConfig, TaskPair
-from .forms import AgentConfigUpdateForm, AgentConfigCreateForm, TaskPairUpdateForm
+from .forms import (AgentConfigUpdateForm, AgentConfigCreateForm,
+                    TaskPairUpdateForm,
+                    TaskPairChooseCauseAgentForm, TaskPairChooseCauseTaskForm,
+                    TaskPairChooseEffectAgentForm, TaskPairChooseEffectTaskForm,
+                    TaskPairCauseOptionsForm, TaskPairEffectOptionsForm,
+                    )
 
 
 
@@ -40,6 +46,32 @@ class AgentConfigCreateView(CreateView):
 
 class TaskPairListView(ListView):
     model = TaskPair
+
+
+class TaskPairWizard(SessionWizardView):
+    form_list = [TaskPairChooseCauseAgentForm, TaskPairChooseCauseTaskForm,
+                 TaskPairCauseOptionsForm,
+                 TaskPairChooseEffectAgentForm, TaskPairChooseEffectTaskForm,
+                 TaskPairEffectOptionsForm,
+                 ]
+    template_name = 'helper/taskpair_wizard.html'
+
+
+    def render_done(self, form, **kwargs):
+        """
+        Dont' want all the revalidation storage stuff... The form is fine :)
+        """
+        task_pair = TaskPair.objects.create(**form.cleaned_data)
+        return redirect(task_pair)
+
+    def process_step(self, form):
+        """
+        user cleaned_data as next forms initial data
+        """
+        if self.steps.next:
+            self.initial_dict.setdefault(self.steps.next, {}).update({
+                k: v.pk if hasattr(v, 'pk') else v
+                for k, v in form.cleaned_data.items()})
 
 
 class TaskPairDetailView(UpdateView):

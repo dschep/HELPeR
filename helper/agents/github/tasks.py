@@ -22,3 +22,4 @@ def get_notifications(access_token, user, task_pair_id):
             'id': notification['id'],
         })
     return events
+get_notifications.event_keys = ['title', 'url', 'repo', 'id']
