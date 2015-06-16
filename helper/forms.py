@@ -10,11 +10,6 @@ from .models import AgentConfig, TaskPair
 from .agents import AGENTS
 
 
-horizontal_bs3_layout_helper = FormHelper()
-horizontal_bs3_layout_helper.form_class = 'form-horizontal'
-horizontal_bs3_layout_helper.label_class = 'col-md-2'
-horizontal_bs3_layout_helper.field_class = 'col-md-8'
-horizontal_bs3_layout_helper.add_input(Submit('submit', 'Save'))
 
 def format_task_name(task_name):
         return task_name.replace('_', ' ').capitalize()
@@ -438,3 +433,23 @@ class TaskPairUpdateForm(forms.ModelForm):
             if k.startswith('effect-opt-')
         }
         return cleaned_data
+
+
+
+
+class TaskPairAdvancedForm(forms.ModelForm):
+    cause_options = HStoreField()
+    effect_options = HStoreField()
+
+    class Meta:
+        model = TaskPair
+        fields = ['enabled',
+                  'cause_agent', 'cause_task', 'cause_options',
+                  'effect_agent', 'effect_task', 'effect_options',
+                  ]
+    helper = FormHelper()
+TaskPairAdvancedForm.helper = FormHelper()
+TaskPairAdvancedForm.helper.form_class = 'form-horizontal'
+TaskPairAdvancedForm.helper.label_class = 'col-md-2'
+TaskPairAdvancedForm.helper.field_class = 'col-md-8'
+TaskPairAdvancedForm.helper.add_input(Submit('submit', 'Save'))

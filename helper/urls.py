@@ -6,7 +6,8 @@ from django.views.generic import RedirectView
 from .views import (AgentConfigDetailView, AgentConfigListView,
                     AgentConfigDeleteView, AgentConfigCreateView,
                     TaskPairDetailView, TaskPairListView,
-                    TaskPairDeleteView, TaskPairWizard)
+                    TaskPairDeleteView, TaskPairWizard,
+                    TaskPairAdvancedDetailView, TaskPairCreateView)
 
 
 urlpatterns = [
@@ -39,9 +40,15 @@ urlpatterns = [
     url(r'^task/add/?$',
         TaskPairWizard.as_view(),
         name='task_pair_create'),
+    url(r'^task/add/advanced/?$',
+        TaskPairCreateView.as_view(),
+        name='task_pair_create_advanced'),
     url(r'^task/(?P<pk>\d+)/?$',
         TaskPairDetailView.as_view(),
         name='task_pair_detail'),
+    url(r'^task/(?P<pk>\d+)/advanced/?$',
+        TaskPairAdvancedDetailView.as_view(),
+        name='task_pair_detail_advanced'),
     url(r'^task/(?P<pk>\d+)/delete/?$',
         TaskPairDeleteView.as_view(),
         name='task_pair_delete'),

@@ -15,7 +15,7 @@ from stronghold.decorators import public
 
 from .models import AgentConfig, TaskPair
 from .forms import (AgentConfigUpdateForm, AgentConfigCreateForm,
-                    TaskPairUpdateForm,
+                    TaskPairUpdateForm, TaskPairAdvancedForm,
                     TaskPairChooseCauseAgentForm, TaskPairChooseCauseTaskForm,
                     TaskPairChooseEffectAgentForm, TaskPairChooseEffectTaskForm,
                     TaskPairCauseOptionsForm, TaskPairEffectOptionsForm,
@@ -61,6 +61,12 @@ class TaskPairDeleteView(DeleteView):
     success_url = reverse_lazy('task_pair_list')
 
 
+class TaskPairCreateView(CreateView):
+    model = TaskPair
+    form_class = TaskPairAdvancedForm
+    template_name = 'helper/taskpair_detail.html'
+
+
 class TaskPairWizard(SessionWizardView):
     form_list = [TaskPairChooseCauseAgentForm, TaskPairChooseCauseTaskForm,
                  TaskPairCauseOptionsForm,
@@ -91,6 +97,14 @@ class TaskPairDetailView(UpdateView):
     model = TaskPair
     template_name_suffix = '_detail'
     form_class = TaskPairUpdateForm
+
+    def get_success_url(object):
+        return reverse('task_pair_list')
+
+class TaskPairAdvancedDetailView(UpdateView):
+    model = TaskPair
+    template_name_suffix = '_detail'
+    form_class = TaskPairAdvancedForm
 
     def get_success_url(object):
         return reverse('task_pair_list')
