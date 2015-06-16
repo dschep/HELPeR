@@ -4,6 +4,16 @@
 <form action="" method="post"
     class="well" style="max-width:400px;margin: 0 auto;">
     {% csrf_token %}
+    {% if cascade_task_pairs %}
+        <div class="alert alert-danger">
+            Deleting this Agent will delete the following tasks:
+            <ul>
+                {% for task_pair in cascade_task_pairs %}
+                    <li>{{ task_pair }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <p>Are you sure you want to delete the <strong>{{ object }}</strong>
     Agent?</p>
     <input type="submit" value="Confirm" class="btn btn-danger">

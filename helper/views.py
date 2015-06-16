@@ -1,5 +1,6 @@
 from importlib import import_module
 
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django.views.generic.detail import DetailView
@@ -38,6 +39,13 @@ class AgentConfigDetailView(UpdateView):
 class AgentConfigDeleteView(DeleteView):
     model = AgentConfig
     success_url = reverse_lazy('agent_config_list')
+
+    def get_context_data(self, **kwargs):
+        context = super(AgentConfigDeleteView, self).get_context_data(**kwargs)
+        context['cascade_task_pairs'] = TaskPair.objects.filter(
+            Q(cause_agent=self.object) | Q(effect_agent=self.object)
+        ).distinct()
+        return context
 
 class AgentConfigCreateView(CreateView):
     model = AgentConfig
