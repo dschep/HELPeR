@@ -122,11 +122,11 @@ class TaskPair(models.Model):
             pass
 
     def run(self):
-        cause_options = self.cause_agent.options
+        cause_options = self.cause_agent.options or {}
         cause_options.update({k: v for k, v in self.cause_options.items()
                               if not k.startswith('_')})
         cause_options['task_pair_id'] = self.id
-        effect_options = self.effect_agent.options
+        effect_options = self.effect_agent.options or {}
         effect_options.update({k: v for k, v in self.effect_options.items()
                                if not k.startswith('_')})
         effect_options['task_pair_id'] = self.id
