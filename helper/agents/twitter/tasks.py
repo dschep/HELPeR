@@ -4,7 +4,7 @@ import tweepy
 from celery import shared_task
 
 from helper.scheduler import schedule
-from helper.utils.dedup.decorators import dedup
+from helper.utils.decorators import format_options_from_event, dedup
 
 
 def get_api(consumer_key, consumer_secret,
@@ -14,13 +14,14 @@ def get_api(consumer_key, consumer_secret,
     return tweepy.API(auth)
 
 @shared_task
+@format_options_from_event
 def send_tweet(data, status, task_pair_id,
                consumer_key, consumer_secret,
                access_token, access_token_secret):
     api = get_api(consumer_key, consumer_secret,
                   access_token, access_token_secret)
 
-    api.update_status(status=status.format(**data))
+    api.update_status(status=status)
 send_tweet.options = ['status']
 
 
