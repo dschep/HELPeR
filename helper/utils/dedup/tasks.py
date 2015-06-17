@@ -4,6 +4,12 @@ from helper.celery import app
 
 
 @shared_task
+def create_dedup_event(data, dedup_key, task_pair_id):
+    from helper.models import DedupEvent # avoid recursive import.
+    return DedupEvent.objects.get_or_create(
+        task_pair_id=task_pair_id, key=data[dedup_key])[1]
+
+@shared_task
 def dedup_effect_wrapper(data, dedup_key, task_pair_id, effect):
     from helper.models import DedupEvent # avoid recursive import.
     if DedupEvent.objects.get_or_create(task_pair_id=task_pair_id,

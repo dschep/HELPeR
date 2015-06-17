@@ -8,7 +8,7 @@ from django.contrib.postgres.fields import HStoreField
 from celery import chain
 
 from helper.utils.tasks import dmap
-from helper.utils.dedup.tasks import dedup_effect_wrapper
+from helper.utils.dedup.tasks import dedup_effect_wrapper, create_dedup_event
 
 
 class AgentConfig(models.Model):
@@ -143,6 +143,18 @@ class TaskPair(models.Model):
             effect = self.effect.s(**effect_options)
 
         return chain(cause, dmap.s(effect))()
+
+    def populate_dedup_events(self):
+        if getattr(self.cause, 'dedup_key', None) is not None:
+            cause_options = self.cause_agent.options or {}
+            cause_options.update({k: v for k, v in self.cause_options.items()
+                                if not k.startswith('_')})
+            cause_options['task_pair_id'] = self.id
+
+            cause = self.cause.s(**cause_options)
+            effect = create_dedup_event.s(task_pair_id=self.id,
+                                        dedup_key=self.cause.dedup_key)
+            return chain(cause, dmap.s(effect))()
 
 
 class Event(models.Model):

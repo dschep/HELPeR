@@ -81,6 +81,7 @@ class TaskPairWizard(SessionWizardView):
         Dont' want all the revalidation storage stuff... The form is fine :)
         """
         task_pair = TaskPair.objects.create(**form.cleaned_data)
+        task_pair.populate_dedup_events()
         return redirect(task_pair)
 
     def process_step(self, form):
