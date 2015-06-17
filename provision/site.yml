@@ -1,11 +1,13 @@
 ---
 - hosts: vagrant
   sudo: yes
+  vars:
+    - redis_bind: 127.0.0.1
   roles:
     - vagrant
     - web
     - db
-    - msg_broker
+    - DavidWittman.redis
     - common
     - app
     - worker
@@ -15,7 +17,7 @@
     - linode
     - web
     - db
-    - msg_broker
+    - DavidWittman.redis
     - common
     - app
     - worker
