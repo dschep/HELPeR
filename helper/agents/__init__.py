@@ -5,6 +5,7 @@ AGENTS = [
     'helper.agents.pushbullet',
     'helper.agents.dropbox',
     'helper.agents.gmail',
+    'helper.agents.twitter',
     'helper.agents.wmata',
     'helper.agents.test',
     'helper.agents.http',

@@ -21,6 +21,7 @@ INSTALLED_APPS = (
     'helper.agents.github',
     'helper.agents.dropbox',
     'helper.agents.gmail',
+    'helper.agents.twitter',
     'helper.agents.wmata',
     'helper.agents.http',
     'helper.agents.test',
