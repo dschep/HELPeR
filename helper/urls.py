@@ -65,6 +65,6 @@ urlpatterns = [
 ]
 
 if 'django.contrib.admin' in settings.INSTALLED_APPS:
- urlpatterns += [
-    url(r'^admin/', include(admin.site.urls)),
- ]
+    urlpatterns += [
+        url(r'^admin/', include(admin.site.urls)),
+    ]
