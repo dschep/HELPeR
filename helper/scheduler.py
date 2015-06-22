@@ -20,8 +20,8 @@ class TaskPairScheduler(PersistentScheduler):
             if task_pair.enabled:
                 if hasattr(task_pair.cause, 'every'):
                     every = task_pair.cause.every
-                elif '_every' in task_pair.cause_options:
-                    every = int(task_pair.cause_options['_every'])
+                #elif '_every' in task_pair.cause_options:
+                    #every = int(task_pair.cause_options['_every'])
                 else: continue
             else: continue
 
