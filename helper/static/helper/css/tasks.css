@@ -23,27 +23,43 @@ a.task_pair {
     float: left;
     color: lightblue;
 }
+@media (max-width: 449px) { .task_pair .task-pair-arrow {
+    margin: -20px 75px 0;
+}}
+@media (max-width: 449px) { .task_pair .task-pair-arrow::before {
+    content: "";
+}}
+@media (max-width: 449px) { .task_pair {
+        /* equivalent to .well */
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+}}
 
 /* no rounding on right on cause task card */
-.task_pair .panel-card:first-child {
+@media (min-width: 450px) { .task_pair .panel-card:first-child {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-}
+}}
 /* no left border/rounding on effect task card */
-.task_pair .panel-card:last-child {
+@media (min-width: 450px) { .task_pair .panel-card:last-child {
     border-left: none;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-}
+}}
 /* space on right of cause task card for arrow */
-.task_pair .panel-card:first-child > * {
+@media (min-width: 450px) { .task_pair .panel-card:first-child > * {
     padding-right: 35px;
-}
+}}
 /* space on left of effect task card for arrow */
-.task_pair .panel-card:last-child > * {
+@media (min-width: 450px) { .task_pair .panel-card:last-child > * {
     padding-left: 40px;
-}
+}}
 
 /* fill width and right font-size */
 .task_pair .panel-body {
