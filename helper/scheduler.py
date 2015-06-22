@@ -17,12 +17,13 @@ class TaskPairScheduler(PersistentScheduler):
     def _get_taskpair_tasks(self):
         tasks = {}
         for task_pair in models.TaskPair.objects.all():
-            if hasattr(task_pair.cause, 'every'):
-                every = task_pair.cause.every
-            elif '_every' in task_pair.cause_options:
-                every = int(task_pair.cause_options['_every'])
-            else:
-                continue
+            if task_pair.enabled:
+                if hasattr(task_pair.cause, 'every'):
+                    every = task_pair.cause.every
+                elif '_every' in task_pair.cause_options:
+                    every = int(task_pair.cause_options['_every'])
+                else: continue
+            else: continue
 
             tasks['run-task-pair-{}'.format(task_pair.id)] = {
                 'task': 'helper.tasks.run_task_pair',
