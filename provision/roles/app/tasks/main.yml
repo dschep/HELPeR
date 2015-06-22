@@ -13,3 +13,7 @@
   template: src=supervisor.j2 dest=/etc/supervisor/conf.d/helper-app.conf
   notify:
     - reload supervisor
+
+- name: restart web workers
+  supervisorctl: name=helper-app restarted
+  when: autostart
