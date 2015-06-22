@@ -1,26 +1,32 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}Tasks - {{ block.super }}{% endblock %}
 
 {% block menu_task_class %}active{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'helper/css/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'helper/css/tasks.css' %}">
+    {{ block.super }}
+{% endblock %}
+
 
 {% block content %}
     <p class="clearfix">
-        <a class="btn btn-primary btn-lg" style="float:right"
+        <a class="btn btn-primary btn-lg new-task"
             href="{% url 'task_pair_create' %}">Create new Task</a>
     </p>
     <div class="task-pairs">
     {% for object in object_list %}
-    <a href="{{ object.get_absolute_url }}" style="text-decoration:none"
-            class="task_pair">
+    <a href="{{ object.get_absolute_url }}" class="task_pair">
         <div class="panel panel-default panel-card">
             <div class="panel-heading">
                 {% if object.schedule %}
                     {% if object.enabled %}
-                    <i class="glyphicon glyphicon-play" style="color:green"></i>
+                    <i class="glyphicon glyphicon-play"></i>
                     {% else %}
-                    <i class="glyphicon glyphicon-pause" style="color:red"></i>
+                    <i class="glyphicon glyphicon-pause"></i>
                     {% endif %}
                     |
                     ⏰{{ object.schedule }}min

@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block title %}{{ object }} config - {{ block.super }}{% endblock %}
 
 {% block menu_agent_class %}active{% endblock %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'helper/css/agents.css' %}">
+{% endblock %}
+
 {% block content %}
-    <fieldset><legend>
+    <fieldset><legend class="agent-config">
         {{ object }} config
         {% if object.configured %}
-        <i class="glyphicon glyphicon-ok-sign" style="color:green"></i>
+        <i class="glyphicon glyphicon-ok-sign"></i>
         {% else %}
-        <i class="glyphicon glyphicon-warning-sign" style="color:red"></i>
+        <i class="glyphicon glyphicon-warning-sign"></i>
         {% endif %}
 </legend></fieldset>
 

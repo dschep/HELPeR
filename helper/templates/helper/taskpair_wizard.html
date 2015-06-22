@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block title %}Add Task - {{ block.super }}{% endblock %}
 
@@ -8,11 +9,7 @@
 {% block head %}
 {{ wizard.form.media }}
 {{ block.super }}
-<style>
-.wizard-step {
-    float: right;
-}
-</style>
+<link rel="stylesheet" href="{% static 'helper/css/tasks.css' }">
 {% endblock %}
 
 {% block content %}

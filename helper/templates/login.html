@@ -4,7 +4,7 @@
 {% block content %}
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}"
-    class="well" style="max-width:400px;margin: 0 auto;">
+    class="well mini-centered">
     {% csrf_token %}
     {{ form|crispy }}
     <input class="btn btn-primary" type="submit" value="login">

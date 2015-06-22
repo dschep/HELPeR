@@ -1,0 +1,17 @@
+.agent-config .panel-body {
+    font-size: 2em;
+}
+a.agent-config {
+    text-decoration: none;
+}
+
+.new-agent {
+    float: right;
+}
+
+.agent-config i.glyphicon-ok-sign {
+    color: green;
+}
+.agent-config i.glyphicon-warning-sign {
+    color: red;
+}

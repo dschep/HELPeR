@@ -1,0 +1,10 @@
+.panel-card {
+    display: inline-block;
+}
+.panel-card .panel-body {
+    display: inline-block;
+}
+.panel-card .panel-heading {
+    padding: 4px 6px;
+    font-size: 1em;
+}

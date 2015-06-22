@@ -1,0 +1,79 @@
+/* float all taskpairs */
+.task_pair {
+    display: inline-block;
+    float: left;
+    padding-right: 20px;
+}
+/* no taskpair link decoration */
+a.task_pair {
+    text-decoration: none;
+}
+
+/* smush tasks cards together */
+.task_pair .panel-card {
+    width: 200px;
+    height: 200px;
+    float: left;
+}
+
+/* arrow sandwiched between task cards */
+.task_pair .task-pair-arrow {
+    font-size: 50px;
+    margin: 75px -25px 0;
+    float: left;
+    color: lightblue;
+}
+
+/* no rounding on right on cause task card */
+.task_pair .panel-card:first-child {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+/* no left border/rounding on effect task card */
+.task_pair .panel-card:last-child {
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+/* space on right of cause task card for arrow */
+.task_pair .panel-card:first-child > * {
+    padding-right: 35px;
+}
+/* space on left of effect task card for arrow */
+.task_pair .panel-card:last-child > * {
+    padding-left: 40px;
+}
+
+/* fill width and right font-size */
+.task_pair .panel-body {
+    font-size: 1.5em;
+    width: 100%;
+}
+
+/* color play/pause buttons */
+.task_pair i.glyphicon-play {
+    color: green;
+}
+.task_pair i.glyphicon-pause {
+    color: red;
+}
+
+/* task options */
+.panel-card ul.task-options {
+    padding-left: 15px;
+    list-style-type: none;
+    font-size: .5em;
+    color: black !important;
+    overflow: auto;
+}
+
+/* new task button */
+.new-task {
+    float: right;
+}
+
+/* float step div to the right during creation wizard */
+.wizard-step {
+    float: right;
+}

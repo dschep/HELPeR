@@ -1,22 +1,29 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}Agent configs - {{ block.super }}{% endblock %}
 
 {% block menu_agent_class %}active{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'helper/css/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'helper/css/agents.css' %}">
+    {{ block.super }}
+{% endblock %}
+
 {% block content %}
     <p class="clearfix">
-        <a class="btn btn-primary btn-lg" style="float:right"
+        <a class="btn btn-primary btn-lg new-agent" 
             href="{% url 'agent_config_create' %}">Configure new Agent</a>
     </p>
     {% for object in object_list %}
-        <a href="{{ object.get_absolute_url }}" style="text-decoration:none">
-        <div class="panel panel-default panel-card agent_config">
+        <a href="{{ object.get_absolute_url }}" class="agent-config">
+        <div class="panel panel-default panel-card">
             <div class="panel-body">
                 {% if object.configured %}
-                <i class="glyphicon glyphicon-ok-sign" style="color:green"></i>
+                <i class="glyphicon glyphicon-ok-sign"></i>
                 {% else %}
-                <i class="glyphicon glyphicon-warning-sign" style="color:red"></i>
+                <i class="glyphicon glyphicon-warning-sign"></i>
                 {% endif %}
                 {{ object }}
             </div>

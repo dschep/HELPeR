@@ -70,3 +70,5 @@ celerybeat-schedule
 # provisioned project files
 manage.py
 project
+
+/static

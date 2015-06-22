@@ -1,0 +1,11 @@
+.navbar {
+    margin-top: 20px;
+}
+.container {
+    max-width: 960px;
+}
+
+.mini-centered {
+    max-width: 400px;
+    margin: 0 auto;
+}
