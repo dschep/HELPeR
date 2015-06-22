@@ -15,5 +15,5 @@
     - reload supervisor
 
 - name: restart web workers
-  supervisorctl: name=helper-app restarted
+  supervisorctl: name=helper-app state=restarted
   when: autostart

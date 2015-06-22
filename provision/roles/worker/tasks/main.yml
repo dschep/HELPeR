@@ -5,5 +5,5 @@
     - reload supervisor
 
 - name: restart celery workers
-  supervisorctl: name=helper-worker restarted
+  supervisorctl: name=helper-worker state=restarted
   when: autostart
