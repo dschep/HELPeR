@@ -13,6 +13,8 @@
     - worker
 - hosts: linode.schep.me
   sudo: yes
+  vars:
+    - redis_bind: 127.0.0.1
   roles:
     - linode
     - web
