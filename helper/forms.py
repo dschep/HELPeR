@@ -197,7 +197,10 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
         cleaned_data = super(TaskPairCauseOptionsForm, self).clean()
         cause_options = {k.split('-', 2)[2]: v for k, v in cleaned_data.items()
                          if k.startswith('cause-opt-')}
-        cleaned_data['cause_options'] = cause_options
+        if hasattr(cleaned_data['cause_options'], 'update'):
+            cleaned_data['cause_options'].update(cause_options)
+        else:
+             cleaned_data['cause_options'] = cause_options
         cleaned_data = {k: v for k, v in cleaned_data.items()
                         if not k.startswith('cause-opt-')}
         return cleaned_data
@@ -205,6 +208,7 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
 class TaskPairChooseEffectAgentForm(TaskPairCauseOptionsForm):
     effect_agent = forms.ModelChoiceField(queryset=AgentConfig.objects.all(),
                                           empty_label=None)
+    cause_options = HStoreField(widget=forms.HiddenInput())
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
         self.fields['effect_agent'].queryset = AgentConfig.objects.filter(
@@ -326,7 +330,10 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
         cleaned_data = super(TaskPairEffectOptionsForm, self).clean()
         effect_options = {k.split('-', 2)[2]: v for k, v in cleaned_data.items()
                           if k.startswith('effect-opt-')}
-        cleaned_data['effect_options'] = effect_options
+        if hasattr(cleaned_data['effect_options'], 'update'):
+            cleaned_data['effect_options'].update(effect_options)
+        else:
+             cleaned_data['effect_options'] = effect_options
         cleaned_data = {k: v for k, v in cleaned_data.items()
                         if not k.startswith('effect-opt-')}
         return cleaned_data
