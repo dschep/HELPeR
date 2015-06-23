@@ -70,14 +70,14 @@ class AgentConfigUpdateForm(forms.ModelForm):
             (
             [FieldWithButtons(var, Button(
                 var+'-action', 'Refresh', css_class='btn-success',
-                onClick=("javascript:window.location.href+='/" + action +
+                onClick=("javascript:window.location.pathname+='/" + action +
                          "';")))
                 for var, action in
              self.instance.agent.ACTION_CONFIG_KEYS.items()]
             if user_configured else []) +
             [FormActions(Submit('save', 'Save'),
                          Button('delete', 'Delete', css_class='btn-danger',
-                                onClick=("javascript:window.location.href"
+                                onClick=("javascript:window.location.pathname"
                                          "+='/delete'")
                                 ))]
         ))
@@ -425,7 +425,7 @@ class TaskPairUpdateForm(forms.ModelForm):
             FormActions(
                 Submit('save', 'Save'),
                 Button('delete', 'Delete', css_class='btn-danger',
-                       onClick=("javascript:window.location.href+='/delete'"))
+                       onClick=("javascript:window.location.pathname+='/delete'"))
             ),
         )
 
