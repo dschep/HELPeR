@@ -7,6 +7,7 @@ AGENTS = [
     'helper.agents.gmail',
     'helper.agents.twitter',
     'helper.agents.wmata',
+    'helper.agents.rss',
     'helper.agents.test',
     'helper.agents.http',
 ]
