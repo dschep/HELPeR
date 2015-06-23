@@ -1,9 +1,14 @@
+import time
+import datetime
+
 import feedparser
 from celery import shared_task
 
 from helper.scheduler import schedule
 from helper.utils.dedup.decorators import dedup
 
+def struct2isoformat(struct):
+    return datetime.datetime.fromtimestamp(time.mktime(struct)).isoformat()
 
 
 @schedule(1)
@@ -16,8 +21,10 @@ def get_rss_feed(url, task_pair_id):
         'title': entry.title,
         'link': entry.link,
         'description': entry.description,
-        'published': entry.get('published', ''),
-        'updated': entry.get('updated', ''),
+        'published': ('' if 'published_parsed' not in entry
+                      else struct2isoformat(entry.published_parsed)),
+        'updated': ('' if 'updated_parsed' not in entry
+                    else struct2isoformat(entry.updated_parsed)),
         'id': entry.id,
     } for entry in resp.entries]
 get_rss_feed.options = ['url']
