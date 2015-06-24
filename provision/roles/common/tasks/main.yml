@@ -21,7 +21,7 @@
 - name: install HELPeR
   sudo: no
   pip: >
-      name='-e {{ BASE_DIR }}'
+      name='{% if editable_pip_install %}-e {% endif %}{{ BASE_DIR }}'
       virtualenv={{ BASE_DIR }}/venv
       virtualenv_command="virtualenv -p/usr/bin/python3"
 
