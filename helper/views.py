@@ -131,10 +131,10 @@ def dispatch_task_pair_url(request, task_pair_id, secret):
     try:
         if request.method == 'POST':
             view = task_pair.cause_view
-            assert task_pair.cause_options.get('secret') == secret
+            assert task_pair.cause_agent.options.get('secret') == secret
         elif request.method == 'GET':
             view = task_pair.effect_view
-            assert task_pair.effect_options.get('secret') == secret
+            assert task_pair.effect_agent.options.get('secret') == secret
         else:
             return HttpResponseNotAllowed(['POST', 'GET'])
     except (AttributeError, ImportError):
@@ -142,4 +142,4 @@ def dispatch_task_pair_url(request, task_pair_id, secret):
     except AssertionError:
         return HttpResponseForbidden()
     else:
-        return view.as_view()(request, task_pair)
+        return view(request, task_pair)

@@ -99,12 +99,12 @@ class TaskPair(models.Model):
     @property
     def cause_view(self):
         return getattr(import_module(self.cause_agent.name + '.views'),
-                       'TaskView')
+                       self.cause_task)
 
     @property
     def effect_view(self):
         return getattr(import_module(self.effect_agent.name + '.views'),
-                       'TaskView')
+                       self.effect_task)
 
     @property
     def cause_name(self):
