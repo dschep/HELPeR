@@ -1,6 +1,9 @@
 .navbar {
     margin-top: 20px;
 }
+.navbar-brand > img {
+    margin-top: -6px; /* center the 32 px high img in a 20px div with 15px padding on top */
+}
 .container {
     max-width: 960px;
 }
