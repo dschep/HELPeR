@@ -37,7 +37,7 @@ def sent_tweet(user, task_pair_id,
     return [{
         'id': str(t.id),
         'status': t.text,
-        'date': str(t.created_at),
+        'date': t.created_at.isoformat(),
         'raw': json.dumps(t._json),
     } for t in api.user_timeline(screen_name=user)]
 sent_tweet.options = ['user']
