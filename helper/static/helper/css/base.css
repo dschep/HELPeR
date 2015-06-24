@@ -13,3 +13,10 @@
     max-width: 400px;
     margin: 0 auto;
 }
+
+.big-alert-icon {
+    font-size: 2em;
+    float: left;
+    margin-top: -4px;
+    margin-right: 10px;
+}

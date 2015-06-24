@@ -6,5 +6,15 @@
 {% block menu_task_class %}active{% endblock %}
 
 {% block content %}
+{% if object.effect_view != None %}
+<div class="alert-info alert" role="alert">
+    <p>
+    <i class="glyphicon glyphicon-info-sign big-alert-icon"></i>
+    This Task's effect returns data on GET requests to
+    <kbd>{{ request.scheme}}://{{ request.get_host }}{{ object.get_absolute_url }}/{{ object.effect_agent.options.secret }}</kbd>.
+    </p>
+</div>
+{% endif %}
+
     {% crispy form %}
 {% endblock content %}
