@@ -5,7 +5,8 @@ import feedparser
 from celery import shared_task
 
 from helper.scheduler import schedule
-from helper.utils.dedup.decorators import dedup
+from helper.utils.decorators import dedup, format_options_from_event
+from helper.agents.utils import send_to_event_store
 
 def struct2isoformat(struct):
     return datetime.datetime.fromtimestamp(time.mktime(struct)).isoformat()
@@ -29,3 +30,12 @@ def get_rss_feed(url, task_pair_id):
     } for entry in resp.entries]
 get_rss_feed.options = ['url']
 get_rss_feed.event_keys = ['title', 'link', 'description', 'published', 'id']
+
+
+@shared_task
+@format_options_from_event
+def generate_rss_feed(data, task_pair_id, **kwargs):
+    send_to_event_store(kwargs, task_pair_id, 'effect')
+generate_rss_feed.options = ['feed_title', 'feed_link', 'feed_description',
+                             'item_title', 'item_link', 'item_description',
+                              'item_guid', 'item_pubdate']
