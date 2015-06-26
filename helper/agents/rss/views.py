@@ -5,6 +5,7 @@ from django.http import HttpResponse
 
 import PyRSS2Gen
 
+from helper.utils.views import SecretGenerator
 from helper.agents.utils import get_from_event_store
 
 

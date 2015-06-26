@@ -1,3 +1,6 @@
+import binascii
+import os
+
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View
@@ -38,3 +41,14 @@ class OAuth2Login(View):
                                  redirect_uri=request.build_absolute_uri(),
                                  scope=','.join(self.scopes),
                              ))
+
+class SecretGenerator(View):
+    key = 'secret'
+
+    def get(self, request, agent_config):
+        agent_config.options[self.key] = binascii.hexlify(
+            os.urandom(16)).decode('utf-8')
+        agent_config.save()
+
+        return redirect(reverse('agent_config_detail', kwargs={
+            'pk': agent_config.pk}))
