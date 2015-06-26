@@ -114,7 +114,7 @@ class TaskPairAdvancedDetailView(UpdateView):
 def dispatch_agent_config_url(request, agent_config_id, view_name):
     agent_config = get_object_or_404(AgentConfig, pk=agent_config_id)
     if view_name not in getattr(
-            agent_config.agent, 'CONFIG_ACTIONS', []):
+            agent_config.agent, 'ACTION_CONFIG_KEYS', {}).values():
         raise Http404
     try:
         view = agent_config.get_agent_view(view_name)

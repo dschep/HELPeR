@@ -5,6 +5,5 @@ ACTION_CONFIG_KEYS = {
     'access_token': 'GmailLogin'
 }
 CONFIG_KEYS = USER_CONFIG_KEYS + list(ACTION_CONFIG_KEYS.keys())
-CONFIG_ACTIONS = ['GmailLogin']
 CAUSE_TASKS = []
 EFFECT_TASKS = ['send_email']

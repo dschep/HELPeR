@@ -19,7 +19,7 @@ If an agent needs it, a config can be created for it in the DB.
 ### Agent Config Views
 An agent can define a views if it as a config in `foobar.view`. They will be
 loaded at `/agent_config/<AGENT_CONFIG_ID>/<AGENT_VIEW>`. They must be
-specified in `foobar.CONFIG_ACTIONS`
+specified in `foobar.ACTION_CONFIG_KEYS`
 
 ex: `/agent/1/Foo` will call `foobar.views.Foo.as_view(request, agent_config)`
 
