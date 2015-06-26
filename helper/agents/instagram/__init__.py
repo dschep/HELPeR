@@ -5,6 +5,5 @@ ACTION_CONFIG_KEYS = {
     'access_token': 'InstagramLogin'
 }
 CONFIG_KEYS = USER_CONFIG_KEYS + list(ACTION_CONFIG_KEYS.keys())
-CONFIG_ACTIONS = ['InstagramLogin']
 CAUSE_TASKS = ['check_uploaded_photos', 'check_liked_photos']
 EFFECT_TASKS = []
