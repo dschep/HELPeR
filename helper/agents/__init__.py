@@ -9,5 +9,4 @@ AGENTS = [
     'helper.agents.wmata',
     'helper.agents.rss',
     'helper.agents.test',
-    'helper.agents.http',
 ]

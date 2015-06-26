@@ -25,13 +25,6 @@
       "options": "{}"
     },
     "model": "helper.agentconfig",
-    "pk": "helper.agents.http"
-  },
-  {
-    "fields": {
-      "options": "{}"
-    },
-    "model": "helper.agentconfig",
     "pk": "helper.agents.instagram"
   },
   {
