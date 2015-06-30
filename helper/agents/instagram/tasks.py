@@ -20,7 +20,7 @@ def _check_photos(access_token, paginate=False, extra_params=None,
             yield {
                 'name': ''.join(c for c in ('' if not image['caption']
                                             else image['caption']['text'])
-                                if c != os.path.sep)[:75],
+                                if c not in '?#' + os.path.sep)[:75],
                 'image': image['images']['standard_resolution']['url'],
                 'date': image['created_time'],
                 'id': image['id'],
