@@ -38,7 +38,7 @@
                 {{ object.cause_name }}
                 <ul class="task-options">
                     {% for key, value in object.cause_options.items %}
-                    <li>{{ key }}: {{ value }}</li>
+                    <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -52,7 +52,7 @@
                 {{ object.effect_name }}
                 <ul class="task-options">
                     {% for key, value in object.effect_options.items %}
-                    <li>{{ key }}: {{ value }}</li>
+                    <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
                     {% endfor %}
                 </ul>
             </div>
