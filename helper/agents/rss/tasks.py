@@ -3,6 +3,7 @@ import datetime
 
 import feedparser
 from celery import shared_task
+from django import forms
 
 from helper.scheduler import schedule
 from helper.utils.decorators import dedup, format_options_from_event
@@ -28,7 +29,7 @@ def get_rss_feed(url, task_pair_id):
                     else struct2isoformat(entry.updated_parsed)),
         'id': entry.id,
     } for entry in resp.entries]
-get_rss_feed.options = ['url']
+get_rss_feed.options = {'url': forms.URLField(label='URL')}
 get_rss_feed.event_keys = ['title', 'link', 'description', 'published', 'id']
 
 
@@ -36,6 +37,13 @@ get_rss_feed.event_keys = ['title', 'link', 'description', 'published', 'id']
 @format_options_from_event
 def generate_rss_feed(data, task_pair_id, **kwargs):
     send_to_event_store(kwargs, task_pair_id, 'effect')
-generate_rss_feed.options = ['feed_title', 'feed_link', 'feed_description',
-                             'item_title', 'item_link', 'item_description',
-                              'item_guid', 'item_pubdate']
+generate_rss_feed.options = {
+    'feed_title': forms.CharField(label='Feed title'),
+    'feed_link': forms.CharField(label='Feed link'),
+    'feed_description': forms.CharField(label='Feed description'),
+    'item_title': forms.CharField(label='Item title'),
+    'item_link': forms.CharField(label='Item link'),
+    'item_description': forms.CharField(label='Item description'),
+    'item_guid': forms.CharField(label='Item GUID'),
+    'item_pubdate': forms.CharField(label='Item publication date'),
+}

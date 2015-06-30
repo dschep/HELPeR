@@ -1,6 +1,8 @@
 import base64
+from collections import OrderedDict
 from email.mime.text import MIMEText
 
+from django import forms
 from celery import shared_task
 import requests
 
@@ -23,4 +25,8 @@ def send_email(data, access_token, from_, to, subject, body, task_pair_id,
         params={'access_token': access_token},
     )
     resp.raise_for_status()
-send_email.options = ['to', 'subject', 'body']
+send_email.options = OrderedDict([
+    ('to', forms.CharField(label='To')),
+    ('subject', forms.CharField(label='Subject')),
+    ('body', forms.CharField(label='Body', widget=forms.Textarea())),
+])

@@ -1,6 +1,7 @@
 import json
 
 import tweepy
+from django import forms
 from celery import shared_task
 
 from helper.scheduler import schedule
@@ -22,7 +23,9 @@ def send_tweet(data, status, task_pair_id,
                   access_token, access_token_secret)
 
     api.update_status(status=status)
-send_tweet.options = ['status']
+send_tweet.options = {
+    'status': forms.CharField(label='Status', widget=forms.Textarea())
+}
 
 
 @dedup('id')
@@ -40,5 +43,5 @@ def sent_tweet(user, task_pair_id,
         'date': t.created_at.isoformat(),
         'raw': json.dumps(t._json),
     } for t in api.user_timeline(screen_name=user)]
-sent_tweet.options = ['user']
+sent_tweet.options = {'user': forms.CharField(label='User')}
 sent_tweet.event_keys = ['id', 'status', 'date', 'raw']

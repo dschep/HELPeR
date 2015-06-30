@@ -1,3 +1,4 @@
+from django import forms
 from celery import shared_task
 import requests
 
@@ -14,13 +15,20 @@ def send_push(data, access_token=None, task_pair_id=None, **kwargs):
 def send_note(data, access_token, task_pair_id, title, body):
     kwargs = {'type': 'note', 'title': title, 'body': body}
     send_push(data, access_token, task_pair_id, **kwargs)
-send_note.options = ['title', 'body']
+send_note.options = {
+    'title': forms.CharField(label='Title'),
+    'body': forms.CharField(label='Body', widget=forms.Textarea())
+}
 
 @shared_task
 def send_link(data, access_token, task_pair_id, title, body, url):
     kwargs = {'type': 'link', 'title': title, 'body': body, 'url': url}
     send_push(data, access_token, task_pair_id, **kwargs)
-send_link.options = ['title', 'body', 'url']
+send_link.options = {
+    'title': forms.CharField(label='Title'),
+    'body': forms.CharField(label='Body', widget=forms.Textarea()),
+    'url': forms.CharField(label='URL'),
+}
 
 
 @shared_task

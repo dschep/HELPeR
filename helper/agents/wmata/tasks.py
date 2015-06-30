@@ -1,5 +1,6 @@
 import requests
 from celery import shared_task
+from django import forms
 
 from helper.scheduler import schedule
 from helper.utils.dedup.decorators import dedup
@@ -13,7 +14,8 @@ def rail_incident(api_key, line, task_pair_id):
                         headers={'api_key': api_key})
     resp.raise_for_status()
 
-    events = []
+    events = [{'id': 'testid', 'lines': 'RD', 'description': 'metro fucked up',
+               'date_updated': '2015-06-30T12:00:00'}]
     for incident in resp.json().get('Incidents', []):
         lines = [l.strip() for l in incident['LinesAffected'].split(';') if l.strip()]
         if line not in lines:
@@ -26,5 +28,11 @@ def rail_incident(api_key, line, task_pair_id):
         })
     return events
 rail_incident.event_keys = ['id', 'lines', 'description', 'date_updated']
-rail_incident.options = ['line']
-rail_incident.help = 'line must be one of: RD, BL, YL, GR, OR, SV'
+rail_incident.options = {'line': forms.ChoiceField(label='Line', choices=[
+    ('RD', 'Red'),
+    ('GR', 'Green'),
+    ('OR', 'Orange'),
+    ('YL', 'Yellow'),
+    ('BL', 'Blue'),
+    ('SV', 'Silver'),
+])}

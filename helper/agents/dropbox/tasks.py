@@ -2,6 +2,7 @@ import posixpath
 
 import requests
 from celery import shared_task
+from django import forms
 from dropbox.client import DropboxClient
 
 from helper.utils.decorators import format_options_from_event
@@ -19,4 +20,8 @@ def send_file_to_dropbox(data, task_pair_id, access_token,
     resp.raise_for_status()
     client.put_file(file_path, resp.content, overwrite=True)
 
-send_file_to_dropbox.options = ['filename', 'path', 'url']
+send_file_to_dropbox.options = {
+    'filename': forms.CharField(label='Filename'),
+    'path': forms.CharField(label='Path'),
+    'url': forms.CharField(label='URL'),
+}

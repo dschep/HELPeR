@@ -176,9 +176,8 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
                                 {help}
                                 </div>
                                 """.format(help=task.help)))
-            for option in getattr(task, 'options', []):
-                self.fields['cause-opt-'+option] = forms.CharField(
-                    label=option)
+            for option, field in getattr(task, 'options', {}).items():
+                self.fields['cause-opt-'+option] = field
                 fields.append('cause-opt-'+option)
             if not getattr(task, 'options', False):
                 fields.append(HTML("""
@@ -306,9 +305,8 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                                 {help}
                                 </div>
                                 """.format(help=task.help)))
-            for option in getattr(task, 'options', []):
-                self.fields['effect-opt-'+option] = forms.CharField(
-                    label=option)
+            for option, field in getattr(task, 'options', {}).items():
+                self.fields['effect-opt-'+option] = field
                 fields.append('effect-opt-'+option)
             if not getattr(task, 'options', False):
                 fields.append(HTML("""
@@ -358,11 +356,9 @@ class TaskPairUpdateForm(forms.ModelForm):
                             {help}
                             </div>
                             """.format(help=self.instance.cause.help)))
-        for option in getattr(self.instance.cause, 'options', []):
-            self.fields['cause-opt-'+option] = forms.CharField(
-                label=option,
-                initial=self.instance.cause_options.get(option),
-            )
+        for option, field in getattr(self.instance.cause, 'options', {}).items():
+            self.fields['cause-opt-'+option] = field
+            field.initial = self.instance.cause_options.get(option)
             cause_fields.append('cause-opt-'+option)
         if not getattr(self.instance.cause, 'options', False):
             cause_fields.append(HTML("""
@@ -394,11 +390,9 @@ class TaskPairUpdateForm(forms.ModelForm):
                             {help}
                             </div>
                             """.format(help=self.isntance.effect.help)))
-        for option in getattr(self.instance.effect, 'options', []):
-            self.fields['effect-opt-'+option] = forms.CharField(
-                label=option,
-                initial=self.instance.effect_options.get(option),
-            )
+        for option, field in getattr(self.instance.effect, 'options', {}).items():
+            self.fields['effect-opt-'+option] = field
+            field.initial = self.instance.effect_options.get(option)
             effect_fields.append('effect-opt-'+option)
         if not getattr(self.instance.effect, 'options', False):
             effect_fields.append(HTML("""
