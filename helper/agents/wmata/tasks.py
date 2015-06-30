@@ -14,8 +14,7 @@ def rail_incident(api_key, line, task_pair_id):
                         headers={'api_key': api_key})
     resp.raise_for_status()
 
-    events = [{'id': 'testid', 'lines': 'RD', 'description': 'metro fucked up',
-               'date_updated': '2015-06-30T12:00:00'}]
+    events = []
     for incident in resp.json().get('Incidents', []):
         lines = [l.strip() for l in incident['LinesAffected'].split(';') if l.strip()]
         if line not in lines:
