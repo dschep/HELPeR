@@ -21,7 +21,7 @@ def _check_photos(access_token, paginate=False, extra_params=None,
             yield {
                 'user': image['from']['name'],
                 'name': ''.join(c for c in image.get('name', '(nocaption)')
-                                if c != os.path.sep)[:75],
+                                if c not in '?#'+os.path.sep)[:75],
                 'image': image['images'][0]['source'],
                 'date': image['created_time'],
                 'fbid': image['id'],
