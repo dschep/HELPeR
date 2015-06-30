@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     'helper.agents.facebook',
     'helper.agents.instagram',
     'helper.agents.pushbullet',
+    'helper.agents.pushover',
     'helper.agents.github',
     'helper.agents.dropbox',
     'helper.agents.gmail',
