@@ -8,8 +8,8 @@ class PushbulletAgent(Agent):
     """
     <p>
     Enter your Access token from <a target="_blank"
-        href="https://www.pushbullet.com/account">
-        https://www.pushbullet.com/account</a> below.
+        href="https://www.pushbullet.com/#settings/account">
+        https://www.pushbullet.com/#settings/account</a> below.
     </p>
     """
     user_config_options = {
