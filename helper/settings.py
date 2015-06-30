@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'helper.agents.twitter',
     'helper.agents.wmata',
     'helper.agents.rss',
+    'helper.agents.http',
     'helper.agents.test',
 )
 
