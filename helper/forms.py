@@ -1,13 +1,10 @@
-from importlib import import_module
-
 from django import forms
 from django.contrib.postgres.forms.hstore import HStoreField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Button, HTML, Fieldset
 from crispy_forms.bootstrap import FormActions, FieldWithButtons, StrictButton
 
-from .models import AgentConfig, TaskPair
-from .agents import AGENTS
+from .models import AgentConfig, TaskPair, Agent
 
 
 
@@ -21,7 +18,7 @@ class AgentConfigCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AgentConfigCreateForm, self).__init__(*args, **kwargs)
         self.fields['name'].choices = [(a, a.split('.')[-1].capitalize())
-                                      for a in AGENTS if a not in
+                                      for a in Agent.registry.keys() if a not in
                                        AgentConfig.objects.all().values_list('name', flat=True)]
 
     class Meta:
@@ -46,17 +43,17 @@ class AgentConfigUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AgentConfigUpdateForm, self).__init__(*args, **kwargs)
-        for key in self.instance.agent.USER_CONFIG_KEYS:
-            self.fields[key] = forms.CharField()
+        for key, field in self.instance.agent.user_config_options.items():
+            self.fields[key] = field
             if self.instance.options:
                 self.fields[key].initial=self.instance.options.get(key)
         if self.instance.options:
             user_configured = all(map(self.instance.options.get,
-                                      self.instance.agent.USER_CONFIG_KEYS))
+                                      self.instance.agent.user_config_options))
         else:
             user_configured = False
         if user_configured:
-            for key in self.instance.agent.ACTION_CONFIG_KEYS:
+            for key in self.instance.agent.action_config_options:
                 self.fields[key] = forms.CharField(
                     widget=forms.TextInput(attrs={'readonly':'readonly'}),
                     initial=self.instance.options.get(key))
@@ -66,14 +63,14 @@ class AgentConfigUpdateForm(forms.ModelForm):
         self.helper.label_class = 'col-md-2'
         self.helper.field_class = 'col-md-8'
         self.helper.layout = Layout(*(
-            self.instance.agent.USER_CONFIG_KEYS +
+            list(self.instance.agent.user_config_options.keys()) +
             (
             [FieldWithButtons(var, Button(
                 var+'-action', 'Refresh', css_class='btn-success',
-                onClick=("javascript:window.location.pathname+='/" + action +
+                onClick=("javascript:window.location.pathname+='/" + var +
                          "';")))
-                for var, action in
-             self.instance.agent.ACTION_CONFIG_KEYS.items()]
+                for var in
+             self.instance.agent.action_config_options]
             if user_configured else []) +
             [FormActions(Submit('save', 'Save'),
                          Button('delete', 'Delete', css_class='btn-danger',
@@ -85,9 +82,9 @@ class AgentConfigUpdateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(AgentConfigUpdateForm, self).clean()
         self.cleaned_data['options'] = {}
-        for key in self.instance.agent.USER_CONFIG_KEYS:
+        for key in self.instance.agent.user_config_options:
             self.cleaned_data['options'][key] = cleaned_data.get(key, '')
-        for key in self.instance.agent.ACTION_CONFIG_KEYS:
+        for key in self.instance.agent.action_config_options:
             if self.instance.options and key in self.instance.options:
                 self.cleaned_data['options'][key] = self.instance.options[key]
 
@@ -108,7 +105,7 @@ class TaskPairChooseCauseAgentForm(forms.Form):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
         self.fields['cause_agent'].queryset = AgentConfig.objects.filter(
             pk__in=[agent.pk for agent in AgentConfig.objects.all()
-                    if len(agent.agent.CAUSE_TASKS) > 0]
+                    if len(agent.agent.cause_tasks) > 0]
         )
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -128,13 +125,13 @@ class TaskPairChooseCauseTaskForm(TaskPairChooseCauseAgentForm):
     # one from above, and it will be re-validated on the final save
     cause_task = forms.ChoiceField(choices=[
         (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.CAUSE_TASKS])
+        for task in agent_config.agent.cause_tasks])
 
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseTaskForm, self).__init__(*args, **kwargs)
         if 'cause_agent' in kwargs.get('initial', {}):
             self.fields['cause_task'].choices = [(t, t) for t in
-                AgentConfig.objects.get(pk=kwargs['initial']['cause_agent']).agent.CAUSE_TASKS]
+                AgentConfig.objects.get(pk=kwargs['initial']['cause_agent']).agent.cause_tasks]
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
@@ -149,7 +146,7 @@ class TaskPairChooseCauseTaskForm(TaskPairChooseCauseAgentForm):
 class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
     cause_task = forms.ChoiceField(choices=[
         (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.CAUSE_TASKS],
+        for task in agent_config.agent.cause_tasks],
         widget=forms.HiddenInput(),
     )
     cause_options = forms.CharField(required=False, widget=forms.HiddenInput())
@@ -171,9 +168,8 @@ class TaskPairCauseOptionsForm(TaskPairChooseCauseTaskForm):
                 predefined_fields[key] = self.data[key]
 
         if set(['cause_agent', 'cause_task']) <= set(predefined_fields):
-            tasks_module = import_module(predefined_fields['cause_agent'] +
-                                         '.tasks')
-            task = getattr(tasks_module, predefined_fields['cause_task'])
+            task = Agent.registry[predefined_fields['cause_agent']]\
+                .cause_tasks[predefined_fields['cause_task']]
             if getattr(task, 'help', False):
                 fields.append(HTML("""
                                 <div class="alert alert-info" role="alert">
@@ -213,7 +209,7 @@ class TaskPairChooseEffectAgentForm(TaskPairCauseOptionsForm):
         super(TaskPairChooseCauseAgentForm, self).__init__(*args, **kwargs)
         self.fields['effect_agent'].queryset = AgentConfig.objects.filter(
             pk__in=[agent.pk for agent in AgentConfig.objects.all()
-                    if len(agent.agent.EFFECT_TASKS) > 0]
+                    if len(agent.agent.effect_tasks) > 0]
         )
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -231,13 +227,13 @@ class TaskPairChooseEffectTaskForm(TaskPairChooseEffectAgentForm):
                                           widget=forms.HiddenInput())
     effect_task = forms.ChoiceField(choices=[
         (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.EFFECT_TASKS])
+        for task in agent_config.agent.effect_tasks])
 
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseEffectTaskForm, self).__init__(*args, **kwargs)
         if 'effect_agent' in kwargs.get('initial', {}):
             self.fields['effect_task'].choices = [(t, t) for t in
-                AgentConfig.objects.get(pk=kwargs['initial']['effect_agent']).agent.EFFECT_TASKS]
+                AgentConfig.objects.get(pk=kwargs['initial']['effect_agent']).agent.effect_tasks]
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
@@ -252,7 +248,7 @@ class TaskPairChooseEffectTaskForm(TaskPairChooseEffectAgentForm):
 class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
     effect_task = forms.ChoiceField(choices=[
         (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.EFFECT_TASKS],
+        for task in agent_config.agent.effect_tasks],
         widget=forms.HiddenInput(),
     )
     effect_options = forms.CharField(required=False, widget=forms.HiddenInput())
@@ -278,10 +274,8 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                 predefined_fields[key] = self.data[key]
 
         if set(['cause_agent', 'cause_task']) <= set(predefined_fields):
-            agent = AgentConfig.objects.get(pk=predefined_fields['cause_agent'])
-            tasks_module = import_module(predefined_fields['cause_agent'] +
-                                         '.tasks')
-            task = getattr(tasks_module, predefined_fields['cause_task'])
+            agent_config = AgentConfig.objects.get(pk=predefined_fields['cause_agent'])
+            task = agent_config.agent.cause_tasks[predefined_fields['cause_task']]
             fields.append(HTML("""
                             <div class="alert alert-info" role="alert">
                                <p>
@@ -299,14 +293,13 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                                        keys=', '.join(
                                            '<kbd>{}</kbd>'.format(key)
                                            for key in task.event_keys),
-                                       agent=agent,
+                                       agent=agent_config,
                                        task=format_task_name(
                                            predefined_fields['cause_task']),
                                        )))
         if set(['effect_agent', 'effect_task']) <= set(predefined_fields):
-            tasks_module = import_module(predefined_fields['effect_agent'] +
-                                         '.tasks')
-            task = getattr(tasks_module, predefined_fields['effect_task'])
+            task = Agent.registry[predefined_fields['effect_agent']]\
+                .effect_tasks[predefined_fields['effect_task']]
             if getattr(task, 'help', False):
                 fields.append(HTML("""
                                 <div class="alert alert-info" role="alert">

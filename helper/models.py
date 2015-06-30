@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from importlib import import_module
 
 from django.db import models
@@ -30,18 +31,15 @@ class AgentConfig(models.Model):
 
     @property
     def agent(self):
-        return import_module(self.name)
-
-    def get_agent_view(self, view_name):
-        views = import_module(self.name + '.views')
-        return getattr(views, view_name)
+        return Agent.registry[self.name]
 
     @property
     def configured(self):
+        all_config_options = (list(self.agent.user_config_options.keys())
+                              + list(self.agent.action_config_options.keys()))
         if not self.options:
-            return not self.agent.CONFIG_KEYS
-        return (set(getattr(self.agent, 'CONFIG_KEYS', []))
-                <= set(self.options.keys()))
+            return not all_config_options
+        return (set(all_config_options) <= set(self.options.keys()))
 
 
 class TaskPair(models.Model):
@@ -88,13 +86,11 @@ class TaskPair(models.Model):
 
     @property
     def cause(self):
-        return getattr(import_module(self.cause_agent.name + '.tasks'),
-                       self.cause_task)
+        return self.cause_agent.agent.cause_tasks[self.cause_task]
 
     @property
     def effect(self):
-        return getattr(import_module(self.effect_agent.name + '.tasks'),
-                       self.effect_task)
+        return self.effect_agent.agent.effect_tasks[self.effect_task]
 
     @property
     def cause_view(self):
@@ -183,3 +179,32 @@ class DedupEvent(models.Model):
 
     def __str__(self):
         return '{0.task_pair}::{0.key}'.format(self)
+
+
+class AgentMeta(type):
+    def __init__(cls, name, bases, dct):
+        if not hasattr(cls, 'registry'):
+            # this is the base class.  Create an empty registry
+            cls.registry = OrderedDict()
+        else:
+            name = dct['__module__']
+            if name.endswith('.models'):
+                name = name[:-7]
+            assert name not in cls.registry, \
+                'Only define one Agent class per module!!!'
+            cls.registry[name] = cls
+
+        super(AgentMeta, cls).__init__(name, bases, dct)
+
+
+class Agent(metaclass=AgentMeta):
+    user_config_options = {}
+    action_config_options = {}
+    cause_tasks = {}
+    effect_tasks = {}
+
+    @classmethod
+    def register(cls, klass):
+        assert klass.__module__ not in cls.registry, \
+            'Only define one Agent class per module!!!'
+        cls.registry[klass.__module__] = klass

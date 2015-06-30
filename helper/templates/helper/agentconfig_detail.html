@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+{% load include_string %}
 
 {% block title %}{{ object }} config - {{ block.super }}{% endblock %}
 
@@ -22,9 +23,7 @@
 </legend></fieldset>
 
     <div class="well">
-    {% with "helper/agent_help/"|add:object.name|add:".html" as template %}
-        {% include template %}
-    {% endwith %}
+        {% include_docstring object.agent %}
     </div>
 
 

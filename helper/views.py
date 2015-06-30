@@ -1,5 +1,3 @@
-from importlib import import_module
-
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
@@ -113,15 +111,10 @@ class TaskPairAdvancedDetailView(UpdateView):
 
 def dispatch_agent_config_url(request, agent_config_id, view_name):
     agent_config = get_object_or_404(AgentConfig, pk=agent_config_id)
-    if view_name not in getattr(
-            agent_config.agent, 'ACTION_CONFIG_KEYS', {}).values():
+    if view_name not in agent_config.agent.action_config_options:
         raise Http404
-    try:
-        view = agent_config.get_agent_view(view_name)
-    except (AttributeError, ImportError):
-        raise Http404
-    else:
-        return view.as_view()(request, agent_config)
+    view = agent_config.agent.action_config_options[view_name]
+    return view.as_view()(request, agent_config)
 
 
 @public
