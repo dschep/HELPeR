@@ -29,6 +29,6 @@ send_push.options = OrderedDict([
         ('1', 'True'), ('', 'False')])),
     ('url', forms.CharField(label='URL', required=False)),
     ('url_title', forms.CharField(label='URL title', required=False)),
-    ('priority', forms.ChoiceField(label='Priority',
+    ('priority', forms.ChoiceField(label='Priority', required=False,
                                    choices=[(str(x),)*2 for x in range(-2, 3)])),
 ])
