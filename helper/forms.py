@@ -432,8 +432,8 @@ class TaskPairUpdateForm(forms.ModelForm):
 
 
 class TaskPairAdvancedForm(forms.ModelForm):
-    cause_options = HStoreField()
-    effect_options = HStoreField()
+    cause_options = HStoreField(required=False)
+    effect_options = HStoreField(required=False)
 
     class Meta:
         model = TaskPair
