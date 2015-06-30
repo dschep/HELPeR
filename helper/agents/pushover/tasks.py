@@ -23,7 +23,7 @@ def send_push(data, token, user, message, title, device, url, url_title,
     resp.raise_for_status()
 send_push.options = OrderedDict([
     ('title', forms.CharField(label='Title', required=False)),
-    ('message', forms.CharField(label='Message')),
+    ('message', forms.CharField(label='Message', widget=forms.Textarea())),
     ('device', forms.CharField(label='Device', required=False)),
     ('html', forms.ChoiceField(required=False, label='HTML', choices=[
         ('1', 'True'), ('', 'False')])),
