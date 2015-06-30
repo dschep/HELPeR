@@ -18,7 +18,8 @@ def get_notifications(access_token, user, task_pair_id):
         events.append({
             'title': notification['subject']['title'],
             'url': notification['subject']['url'].replace(
-                '://api.github.com/repos/', '://github.com/'),
+                '://api.github.com/repos/', '://github.com/').replace(
+                '/pulls/', '/pull/'),
             'repo': notification['repository']['full_name'],
             'id': notification['id'],
         })
