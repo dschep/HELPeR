@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 from celery import shared_task
 from django import forms
@@ -5,11 +7,22 @@ from django import forms
 from helper.scheduler import schedule
 from helper.utils.dedup.decorators import dedup
 
+time_ranges = {
+    'both': [(7, 10), (16, 19)],
+    'morning': [(7, 10)],
+    'evening': [(16, 19)],
+    'always': [(0, 24)],
+}
+
 
 @dedup('id')
 @schedule(1)
 @shared_task
-def rail_incident(api_key, line, task_pair_id):
+def rail_incident(api_key, line, task_pair_id, commute_only='always'):
+    now = datetime.now()
+    if not any([l < now.hour < u for l, u in time_ranges[commute_only]]):
+        return []
+
     resp = requests.get('https://api.wmata.com/Incidents.svc/json/Incidents',
                         headers={'api_key': api_key})
     resp.raise_for_status()
@@ -27,11 +40,19 @@ def rail_incident(api_key, line, task_pair_id):
         })
     return events
 rail_incident.event_keys = ['id', 'lines', 'description', 'date_updated']
-rail_incident.options = {'line': forms.ChoiceField(label='Line', choices=[
-    ('RD', 'Red'),
-    ('GR', 'Green'),
-    ('OR', 'Orange'),
-    ('YL', 'Yellow'),
-    ('BL', 'Blue'),
-    ('SV', 'Silver'),
-])}
+rail_incident.options = {
+    'line': forms.ChoiceField(label='Line', choices=[
+        ('RD', 'Red'),
+        ('GR', 'Green'),
+        ('OR', 'Orange'),
+        ('YL', 'Yellow'),
+        ('BL', 'Blue'),
+        ('SV', 'Silver'),
+    ]),
+    'commute_only': forms.ChoiceField(label='Only between', choices=[
+        ('both', '7AM - 10AM and 4PM - 7PM'),
+        ('morning', '7AM - 10AM'),
+        ('evening', '4PM - 7PM'),
+        ('always', 'Always'),
+    ]),
+}
