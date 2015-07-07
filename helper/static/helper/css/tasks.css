@@ -67,8 +67,16 @@ legend .task-icon  {
 .task-details {
     color: rgb(51,51,51);
 }
-.task-options {
+ul.task-options {
     max-height: 100px;
     overflow-y: auto;
+    overflow-wrap: break-word;
     margin: 0;
+    /* bs text-muted & small */
+    color: #777;
+    font-size: 85%;
+    padding-left: 20px;
+}
+ul.task-options li {
+    list-style: none;
 }
