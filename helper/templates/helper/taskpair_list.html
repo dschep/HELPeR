@@ -39,12 +39,12 @@
                             <b>{{ object.cause_agent }}</b>
                             {{ object.cause_name }}
                         </span>
-                        <ul>
+                        <ul class="task-options">
                             {% if object.schedule %}
                             <li>⏰ Every {{ object.schedule }} min</li>
                             {% endif %}
                             {% for key, value in object.cause_options.items %}
-                                {% if key in object.cause.options %}
+                                {% if key in object.cause.options and value %}
                                 <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
                                 {% endif %}
                             {% endfor %}
@@ -55,9 +55,9 @@
                             <b>{{ object.effect_agent }}</b>
                             {{ object.effect_name }}
                         </span>
-                        <ul>
+                        <ul class="task-options">
                             {% for key, value in object.effect_options.items %}
-                                {% if key in object.effect.options %}
+                                {% if key in object.effect.options and value %}
                                 <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
                                 {% endif %}
                             {% endfor %}
