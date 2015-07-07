@@ -8,10 +8,10 @@ from helper.scheduler import schedule
 from helper.utils.dedup.decorators import dedup
 
 time_ranges = {
-    'both': [(7, 10), (16, 19)],
-    'morning': [(7, 10)],
-    'evening': [(16, 19)],
-    'always': [(0, 24)],
+    'both': [(7, 10, 0, 5), (16, 19, 0, 5)],
+    'morning': [(7, 10, 0, 5)],
+    'evening': [(16, 19, 0, 5)],
+    'always': [(0, 24, 0, 8)],
 }
 
 
@@ -20,7 +20,8 @@ time_ranges = {
 @shared_task
 def rail_incident(api_key, line, task_pair_id, commute_only='always'):
     now = datetime.now()
-    if not any([l < now.hour < u for l, u in time_ranges[commute_only]]):
+    if not any([l <= now.hour < u and dl <= now.weekday() < du
+                for l, u, dl, du in time_ranges[commute_only]]):
         return []
 
     resp = requests.get('https://api.wmata.com/Incidents.svc/json/Incidents',
@@ -50,9 +51,9 @@ rail_incident.options = {
         ('SV', 'Silver'),
     ]),
     'commute_only': forms.ChoiceField(label='Only between', choices=[
-        ('both', '7AM - 10AM and 4PM - 7PM'),
-        ('morning', '7AM - 10AM'),
-        ('evening', '4PM - 7PM'),
+        ('both', '7AM - 10AM and 4PM - 7PM, weekdays'),
+        ('morning', '7AM - 10AM, weekdays'),
+        ('evening', '4PM - 7PM, weekdays'),
         ('always', 'Always'),
     ]),
 }
