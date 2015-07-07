@@ -335,7 +335,7 @@ class TaskPairUpdateForm(forms.ModelForm):
 
     class Meta:
         model = TaskPair
-        fields = ['enabled', 'cause_options', 'effect_options']
+        fields = ['name', 'enabled', 'cause_options', 'effect_options']
 
     def __init__(self, *args, **kwargs):
         super(TaskPairUpdateForm, self).__init__(*args, **kwargs)
@@ -402,7 +402,7 @@ class TaskPairUpdateForm(forms.ModelForm):
                             """))
 
         self.helper.layout = Layout(
-            Fieldset('Task Options', 'enabled'),
+            Fieldset('Task Options', 'name', 'enabled'),
             Fieldset('<strong>{}</strong>:{}'.format(self.instance.cause_agent,
                                                      self.instance.cause_name),
                      *cause_fields),
@@ -437,7 +437,7 @@ class TaskPairAdvancedForm(forms.ModelForm):
 
     class Meta:
         model = TaskPair
-        fields = ['enabled',
+        fields = ['name', 'enabled',
                   'cause_agent', 'cause_task', 'cause_options',
                   'effect_agent', 'effect_task', 'effect_options',
                   ]

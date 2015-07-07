@@ -93,3 +93,10 @@ a.task_pair {
 .wizard-step {
     float: right;
 }
+
+/* big name! */
+#id_name {
+    font-weight: bold;
+    font-size: 1.75em;
+    height: 1.75em;
+}

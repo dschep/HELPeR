@@ -2,9 +2,12 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}{{ object.name }} - {{ block.super }}{% endblock %}
+{% block title %}{{ object }} - {{ block.super }}{% endblock %}
 
 {% block menu_task_class %}active{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'helper/css/tasks.css' %}">
+{% endblock %}
 
 {% block content %}
 {% if object.effect_view != None %}

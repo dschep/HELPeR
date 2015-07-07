@@ -43,6 +43,7 @@ class AgentConfig(models.Model):
 
 
 class TaskPair(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
     enabled = models.BooleanField(default=True)
     cause_agent = models.ForeignKey(AgentConfig,
                                     related_name='cause_task_pairs')
@@ -54,6 +55,8 @@ class TaskPair(models.Model):
     effect_options = HStoreField(null=True, blank=True)
 
     def __str__(self):
+        if self.name:
+            return self.name
         return '{}:{} -> {}:{}'.format(
             self.cause_agent, self.cause_task,
             self.effect_agent, self.effect_task,
