@@ -17,6 +17,15 @@
 .taskpair {
     margin-bottom: 20px;
 }
+.taskpair:hover {
+    text-decoration: none;
+    -webkit-filter: brightness(85%);
+    filter: brightness(85%);
+}
+.taskpair.disabled:hover {
+    -webkit-filter: brightness(85%) saturate(0%) contrast(150%);
+    filter: brightness(85%) saturate(0%) contrast(150%);
+}
 
 .taskpair-icons {
     margin: 10px;
