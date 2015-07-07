@@ -89,11 +89,15 @@ class TaskPair(models.Model):
 
     @property
     def cause(self):
-        return self.cause_agent.agent.cause_tasks[self.cause_task]
+        cause = self.cause_agent.agent.cause_tasks[self.cause_task]
+        cause.do_not_call_in_templates = True
+        return cause
 
     @property
     def effect(self):
-        return self.effect_agent.agent.effect_tasks[self.effect_task]
+        effect = self.effect_agent.agent.effect_tasks[self.effect_task]
+        effect.do_not_call_in_templates = True
+        return effect
 
     @property
     def cause_view(self):

@@ -64,3 +64,6 @@ legend .task-icon  {
     margin: 47px -17px 0;
     vertical-align: top;
 }
+.task-details {
+    color: rgb(51,51,51);
+}

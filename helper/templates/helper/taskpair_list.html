@@ -33,47 +33,39 @@
             </div>
             <div class="col-md-7">
                 <h3>{{ object }}</h3>
+                <div class="row task-details">
+                    <div class="col-md-6">
+                        <span>
+                            <b>{{ object.cause_agent }}</b>
+                            {{ object.cause_name }}
+                        </span>
+                        <ul>
+                            {% if object.schedule %}
+                            <li>⏰ Every {{ object.schedule }} min</li>
+                            {% endif %}
+                            {% for key, value in object.cause_options.items %}
+                                {% if key in object.cause.options %}
+                                <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <span>
+                            <b>{{ object.effect_agent }}</b>
+                            {{ object.effect_name }}
+                        </span>
+                        <ul>
+                            {% for key, value in object.effect_options.items %}
+                                {% if key in object.effect.options %}
+                                <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        {% comment %}
-        <div class="panel panel-default panel-card">
-            <div class="panel-heading">
-                {% if object.schedule %}
-                    {% if object.enabled %}
-                    <i class="fa fa-play"></i>
-                    {% else %}
-                    <i class="fa fa-pause"></i>
-                    {% endif %}
-                    |
-                    ⏰{{ object.schedule }}min
-                    |
-                {% endif %}
-                {{ object.cause_agent }}
-            </div>
-            <div class="panel-body">
-                {{ object.cause_name }}
-                <ul class="task-options">
-                    {% for key, value in object.cause_options.items %}
-                    <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <i class="fa fa-arrow-right task-pair-arrow"></i>
-        <div class="panel panel-default panel-card">
-            <div class="panel-heading">
-                {{ object.effect_agent }}
-            </div>
-            <div class="panel-body">
-                {{ object.effect_name }}
-                <ul class="task-options">
-                    {% for key, value in object.effect_options.items %}
-                    <li>{{ key }}: {% if 'pass' in key %}hunter2{% else %}{{ value }}{% endif %}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        {% endcomment %}
         </a>
     {% endfor %}
     </div>
