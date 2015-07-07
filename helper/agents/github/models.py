@@ -19,7 +19,7 @@ class GithubAgent(Agent):
     }
     cause_tasks = {'get_notifications': tasks.get_notifications}
     ui = {
-        'background': 'grey',
-        'foreground': 'black',
+        'background': 'black',
+        'foreground': 'white',
         'icon': '<i class="fa fa-github"></i>'
     }
