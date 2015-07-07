@@ -9,10 +9,10 @@ a.agent-config {
     float: right;
 }
 
-.agent-config i.glyphicon-ok-sign {
+.agent-config i.agent-ok {
     color: green;
 }
-.agent-config i.glyphicon-warning-sign {
+.agent-config i.agent-error {
     color: red;
 }
 @media (max-width: 767px) { .agent-config .panel-card {

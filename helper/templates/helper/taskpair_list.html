@@ -24,9 +24,9 @@
             <div class="panel-heading">
                 {% if object.schedule %}
                     {% if object.enabled %}
-                    <i class="glyphicon glyphicon-play"></i>
+                    <i class="fa fa-play"></i>
                     {% else %}
-                    <i class="glyphicon glyphicon-pause"></i>
+                    <i class="fa fa-pause"></i>
                     {% endif %}
                     |
                     ⏰{{ object.schedule }}min
@@ -43,7 +43,7 @@
                 </ul>
             </div>
         </div>
-        <i class="glyphicon glyphicon-circle-arrow-right task-pair-arrow"></i>
+        <i class="fa fa-arrow-right task-pair-arrow"></i>
         <div class="panel panel-default panel-card">
             <div class="panel-heading">
                 {{ object.effect_agent }}

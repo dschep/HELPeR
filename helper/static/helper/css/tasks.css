@@ -68,10 +68,10 @@ a.task_pair {
 }
 
 /* color play/pause buttons */
-.task_pair i.glyphicon-play {
+.task_pair i.fa-play {
     color: green;
 }
-.task_pair i.glyphicon-pause {
+.task_pair i.fa-pause {
     color: red;
 }
 
