@@ -18,22 +18,13 @@
     <div class='agent-configs'>
     {% for object in object_list %}
         <a href="{{ object.get_absolute_url }}" class="agent-config-card">
+            {% if not object.configured %}
+                <i class="fa fa-exclamation-triangle agent-error"></i>
+            {% endif %}
             <div class="agent-config" style="background:{{ object.agent.ui.background }};color:{{ object.agent.ui.foreground }}">
                 {{ object.agent.ui.icon|safe }}
             </div>
             <div class="agent-config-label">{{ object }}</div>
-        {% comment %}
-        <div class="panel panel-default panel-card">
-            <div class="panel-body">
-                {% if object.configured %}
-                <i class="fa fa-check-circle agent-ok"></i>
-                {% else %}
-                <i class="fa fa-exclamation-circle agent-error"></i>
-                {% endif %}
-                {{ object }}
-            </div>
-        </div>
-        {% endcomment %}
         </a>
     {% endfor %}
     </div>

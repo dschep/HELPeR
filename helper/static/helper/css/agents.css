@@ -14,6 +14,7 @@ button.agent-config-card:hover {
     filter: brightness(85%);
 }
 .agent-config-card {
+    position: relative;
     margin: 10px;
     display: inline-block;
     background: none;
@@ -22,4 +23,13 @@ button.agent-config-card:hover {
 .agent-config-label {
     text-align: center;
     margin: 10px 0;
+}
+.agent-error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: none;
+    color: white;
+    margin: 5px;
+    font-size: 20px;
 }
