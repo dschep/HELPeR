@@ -22,5 +22,5 @@ class PushbulletAgent(Agent):
     ui = {
         'background': '#4ab367',
         'foreground': 'white',
-        'icon': '<i class="fa">PB</i>'
+        'icon': '<i class="fa fake-icon">PB</i>'
     }

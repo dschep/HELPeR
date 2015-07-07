@@ -28,3 +28,7 @@
 .control-label.requiredField {
     font-weight: bold;
 }
+
+.fa.fake-icon {
+    font: inherit;
+}
