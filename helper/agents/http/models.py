@@ -15,5 +15,5 @@ class HttpAgent(Agent):
     ui = {
         'background': '#f06529',
         'foreground': 'white',
-        'icon': '<i class="fa fake-icon" style="font-size:50%">HTTP</i>'
+        'icon': '<i class="fa fake-icon" style="font-size:50%;transform:translateY(-25%)">HTTP</i>'
     }
