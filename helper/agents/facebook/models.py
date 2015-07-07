@@ -35,3 +35,8 @@ class FacebookAgent(Agent, OAuthAgentMixin):
             'https://graph.facebook.com/v2.3/oauth/access_token',
         'scopes': ['user_photos'],
     }
+    ui = {
+        'background': '#4862a3',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-facebook"></i>'
+    }

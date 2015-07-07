@@ -6,7 +6,6 @@
 {% block menu_task_class %}active{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'helper/css/cards.css' %}">
     <link rel="stylesheet" href="{% static 'helper/css/tasks.css' %}">
     {{ block.super }}
 {% endblock %}
@@ -19,7 +18,24 @@
     </p>
     <div class="task-pairs">
     {% for object in object_list %}
-    <a href="{{ object.get_absolute_url }}" class="task_pair">
+    <a href="{{ object.get_absolute_url }}">
+        <div class="row taskpair{% if not object.enabled %} disabled{% endif %}">
+            <div class="col-sm-5">
+                <div class="taskpair-icons">
+                    <div class="task-icon" style="background: {{ object.cause_agent.agent.ui.background }};color: {{ object.cause_agent.agent.ui.foreground }}">
+                        {{ object.cause_agent.agent.ui.icon|safe }}
+                    </div>
+                    <i class="fa fa-arrow-right task-pair-arrow"></i>
+                    <div class="task-icon" style="background: {{ object.effect_agent.agent.ui.background }};color: {{ object.effect_agent.agent.ui.foreground }}">
+                        {{ object.effect_agent.agent.ui.icon|safe }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <h3>{{ object }}</h3>
+            </div>
+        </div>
+        {% comment %}
         <div class="panel panel-default panel-card">
             <div class="panel-heading">
                 {% if object.schedule %}
@@ -57,6 +73,7 @@
                 </ul>
             </div>
         </div>
+        {% endcomment %}
         </a>
     {% endfor %}
     </div>

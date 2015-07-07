@@ -18,3 +18,8 @@ class DropboxAgent(Agent):
         'access_token': forms.CharField(),
     }
     effect_tasks = {'send_file_to_dropbox': tasks.send_file_to_dropbox}
+    ui = {
+        'background': '#1081de',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-dropbox"></i>'
+    }

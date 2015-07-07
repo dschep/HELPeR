@@ -403,11 +403,19 @@ class TaskPairUpdateForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Fieldset('Task Options', 'name', 'enabled'),
-            Fieldset('<strong>{}</strong>:{}'.format(self.instance.cause_agent,
-                                                     self.instance.cause_name),
+            Fieldset('<div class="task-icon" style="background:{bg};color:{fg}">{icon}</div> {}'.format(
+                self.instance.cause_name,
+                icon=self.instance.cause_agent.agent.ui['icon'],
+                fg=self.instance.cause_agent.agent.ui['foreground'],
+                bg=self.instance.cause_agent.agent.ui['background'],
+            ),
                      *cause_fields),
-            Fieldset('<strong>{}</strong>:{}'.format(self.instance.effect_agent,
-                                                     self.instance.effect_name),
+            Fieldset('<div class="task-icon" style="background:{bg};color:{fg}">{icon}</div> {}'.format(
+                self.instance.effect_name,
+                icon=self.instance.effect_agent.agent.ui['icon'],
+                fg=self.instance.effect_agent.agent.ui['foreground'],
+                bg=self.instance.effect_agent.agent.ui['background'],
+            ),
                      *effect_fields),
             FormActions(
                 Submit('save', 'Save'),

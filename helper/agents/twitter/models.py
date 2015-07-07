@@ -27,3 +27,8 @@ class GithubAgent(Agent):
     }
     cause_tasks = {'sent_tweet': tasks.sent_tweet}
     effect_tasks = {'send_tweet': tasks.send_tweet}
+    ui = {
+        'background': '#005787',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-twitter"></i>'
+    }

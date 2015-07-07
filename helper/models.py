@@ -205,6 +205,11 @@ class Agent(metaclass=AgentMeta):
     action_config_options = {}
     cause_tasks = {}
     effect_tasks = {}
+    ui = {
+        'background': 'orange',
+        'foreground': 'black',
+        'icon': '<i class="fa fa-gear"></i>'
+    }
 
     @classmethod
     def register(cls, klass):

@@ -12,3 +12,8 @@ class HttpAgent(Agent):
     """
     effect_tasks = {'http_request': tasks.http_request,
                     'http_request_urldownload': tasks.http_request_urldownload}
+    ui = {
+        'background': '#f06529',
+        'foreground': 'white',
+        'icon': '<i class="fa" style="font-size:50%">HTTP</i>'
+    }

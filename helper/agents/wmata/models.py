@@ -19,3 +19,8 @@ class WmataAgent(Agent):
         'api_key': forms.CharField(),
     }
     cause_tasks = {'rail_incident': tasks.rail_incident}
+    ui = {
+        'background': '#1b5790',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-subway"></i>'
+    }

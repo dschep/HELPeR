@@ -29,3 +29,8 @@ class InstagramAgent(Agent, OAuthAgentMixin):
         'authorization_url': 'https://api.instagram.com/oauth/authorize/',
         'token_url': 'https://api.instagram.com/oauth/access_token'
     }
+    ui = {
+        'background': '#005787',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-instagram"></i>'
+    }

@@ -19,3 +19,8 @@ class PushbulletAgent(Agent):
         'send_note': tasks.send_note,
         'send_link': tasks.send_link,
     }
+    ui = {
+        'background': '#4ab367',
+        'foreground': 'white',
+        'icon': '<i class="fa">PB</i>'
+    }

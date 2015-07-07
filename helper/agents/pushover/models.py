@@ -22,3 +22,8 @@ class PushbulletAgent(Agent):
     effect_tasks = {
         'send_notification': tasks.send_push,
     }
+    ui = {
+        'background': '#3993d1',
+        'foreground': 'white',
+        'icon': '<i class="fa">P</i>'
+    }

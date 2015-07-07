@@ -37,3 +37,8 @@ class GmailAgent(Agent, OAuthAgentMixin):
         'token_url': 'https://www.googleapis.com/oauth2/v3/token',
         'scopes': ['https://www.googleapis.com/auth/gmail.compose'],
     }
+    ui = {
+        'background': '#de5347',
+        'foreground': 'white',
+        'icon': '<i class="fa fa-envelope"></i>'
+    }

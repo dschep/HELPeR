@@ -6,7 +6,6 @@
 {% block menu_agent_class %}active{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'helper/css/cards.css' %}">
     <link rel="stylesheet" href="{% static 'helper/css/agents.css' %}">
     {{ block.super }}
 {% endblock %}
@@ -16,8 +15,13 @@
         <a class="btn btn-primary btn-lg new-agent" 
             href="{% url 'agent_config_create' %}">Configure new Agent</a>
     </p>
+    <div class='agent-configs'>
     {% for object in object_list %}
-        <a href="{{ object.get_absolute_url }}" class="agent-config">
+        <a href="{{ object.get_absolute_url }}">
+            <div class="agent-config" style="background:{{ object.agent.ui.background }};color:{{ object.agent.ui.foreground }}">
+                {{ object.agent.ui.icon|safe }}
+            </div>
+        {% comment %}
         <div class="panel panel-default panel-card">
             <div class="panel-body">
                 {% if object.configured %}
@@ -28,6 +32,8 @@
                 {{ object }}
             </div>
         </div>
+        {% endcomment %}
         </a>
     {% endfor %}
+    </div>
 {% endblock content %}

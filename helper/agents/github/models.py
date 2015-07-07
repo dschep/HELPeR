@@ -18,3 +18,8 @@ class GithubAgent(Agent):
         'access_token': forms.CharField(),
     }
     cause_tasks = {'get_notifications': tasks.get_notifications}
+    ui = {
+        'background': 'grey',
+        'foreground': 'black',
+        'icon': '<i class="fa fa-github"></i>'
+    }
