@@ -65,10 +65,10 @@ legend .task-icon  {
     vertical-align: top;
 }
 .task-details {
-    color: rgb(51,51,51);
+    color: #555;
 }
 ul.task-options {
-    max-height: 100px;
+    max-height: 50px;
     overflow-y: auto;
     overflow-wrap: break-word;
     margin: 0;
