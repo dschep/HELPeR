@@ -4,8 +4,6 @@
     width: 125px;
     padding: 10px;
     text-align: center;
-    display: inline-block;
-    margin: 20px;
     vertical-align: middle;
     border-radius: 6px;
 }
@@ -13,4 +11,12 @@
     text-decoration: none;
     -webkit-filter: brightness(85%);
     filter: brightness(85%);
+}
+.agent-config-card {
+    margin: 10px;
+    display: inline-block;
+}
+.agent-config-label {
+    text-align: center;
+    margin: 10px 0;
 }
