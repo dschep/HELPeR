@@ -97,6 +97,21 @@ def submit_buttons_from_choicefield(name, choicefield, prefix=None):
         for value, label in choicefield.choices
     ]
 
+def agent_buttons(name, agent_configs, prefix=None):
+    name_fmt = '{prefix}-{name}' if prefix else '{name}'
+    return [
+        StrictButton("""
+                     <div class="agent-config" style="background:{background};color:{foreground}">
+                     {icon}
+                     </div>
+                     <div class="agent-config-label">{}</div>
+                     """.format(str(agent_config), **agent_config.agent.ui),
+                     css_class="agent-config-card",
+                     value=agent_config.pk, type='submit',
+                     name=name_fmt.format(name=name, prefix=prefix))
+        for agent_config in agent_configs
+    ]
+
 
 class TaskPairChooseCauseAgentForm(forms.Form):
     cause_agent = forms.ModelChoiceField(queryset=AgentConfig.objects.all(),
@@ -111,9 +126,8 @@ class TaskPairChooseCauseAgentForm(forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
             'Choose a Cause Agent',
-            *submit_buttons_from_choicefield(
-                'cause_agent', self.fields['cause_agent'], kwargs.get('prefix')
-            )
+            *agent_buttons('cause_agent', self.fields['cause_agent'].queryset,
+                           kwargs.get('prefix'))
         ))
 
 
@@ -215,9 +229,8 @@ class TaskPairChooseEffectAgentForm(TaskPairCauseOptionsForm):
         self.helper.layout = Layout(Fieldset(
             'Choose a Effect Agent',
             'cause_agent', 'cause_task', 'cause_options',
-            *submit_buttons_from_choicefield(
-                'effect_agent', self.fields['effect_agent'], kwargs.get('prefix')
-            )
+            *agent_buttons('effect_agent', self.fields['effect_agent'].queryset,
+                           kwargs.get('prefix'))
         ))
 
 

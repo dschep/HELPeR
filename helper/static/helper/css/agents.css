@@ -1,4 +1,4 @@
-.agent-configs .agent-config {
+.agent-config-card .agent-config {
     font-size: 77px;
     height: 125px;
     width: 125px;
@@ -7,7 +7,8 @@
     vertical-align: middle;
     border-radius: 6px;
 }
-.agent-configs a:hover {
+a.agent-config-card:hover,
+button.agent-config-card:hover {
     text-decoration: none;
     -webkit-filter: brightness(85%);
     filter: brightness(85%);
@@ -15,6 +16,8 @@
 .agent-config-card {
     margin: 10px;
     display: inline-block;
+    background: none;
+    padding: 0;
 }
 .agent-config-label {
     text-align: center;
