@@ -31,6 +31,7 @@ def get_rss_feed(url, task_pair_id):
     } for entry in resp.entries]
 get_rss_feed.options = {'url': forms.URLField(label='URL')}
 get_rss_feed.event_keys = ['title', 'link', 'description', 'published', 'id']
+get_rss_feed.label = 'Get feed'
 
 
 @shared_task
@@ -47,3 +48,4 @@ generate_rss_feed.options = {
     'item_guid': forms.CharField(label='Item GUID'),
     'item_pubdate': forms.CharField(label='Item publication date'),
 }
+generate_rss_feed.label = 'Generate feed'

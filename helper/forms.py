@@ -138,14 +138,16 @@ class TaskPairChooseCauseTaskForm(TaskPairChooseCauseAgentForm):
     # task somewhere so it doesn't fail. user should only have selected
     # one from above, and it will be re-validated on the final save
     cause_task = forms.ChoiceField(choices=[
-        (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.cause_tasks])
+        (task_name, getattr(task, 'label', task_name)) for agent_config in AgentConfig.objects.all()
+        for task_name, task in agent_config.agent.cause_tasks.items()])
 
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseCauseTaskForm, self).__init__(*args, **kwargs)
         if 'cause_agent' in kwargs.get('initial', {}):
-            self.fields['cause_task'].choices = [(t, t) for t in
-                AgentConfig.objects.get(pk=kwargs['initial']['cause_agent']).agent.cause_tasks]
+            self.fields['cause_task'].choices = [
+                (task_name, getattr(task, 'label', task_name))
+                for task_name, task in AgentConfig.objects.get(
+                    pk=kwargs['initial']['cause_agent']).agent.cause_tasks.items()]
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
@@ -238,14 +240,16 @@ class TaskPairChooseEffectTaskForm(TaskPairChooseEffectAgentForm):
     effect_agent = forms.ModelChoiceField(queryset=AgentConfig.objects.all(),
                                           widget=forms.HiddenInput())
     effect_task = forms.ChoiceField(choices=[
-        (task, task) for agent_config in AgentConfig.objects.all()
-        for task in agent_config.agent.effect_tasks])
+        (task_name, getattr(task, 'label', task_name)) for agent_config in AgentConfig.objects.all()
+        for task_name, task in agent_config.agent.effect_tasks.items()])
 
     def __init__(self, *args, **kwargs):
         super(TaskPairChooseEffectTaskForm, self).__init__(*args, **kwargs)
         if 'effect_agent' in kwargs.get('initial', {}):
-            self.fields['effect_task'].choices = [(t, t) for t in
-                AgentConfig.objects.get(pk=kwargs['initial']['effect_agent']).agent.effect_tasks]
+            self.fields['effect_task'].choices = [
+                (task_name, getattr(task, 'label', task_name))
+                for task_name, task in AgentConfig.objects.get(
+                    pk=kwargs['initial']['effect_agent']).agent.effect_tasks.items()]
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Fieldset(
@@ -306,8 +310,9 @@ class TaskPairEffectOptionsForm(TaskPairChooseEffectTaskForm):
                                            '<kbd>{}</kbd>'.format(key)
                                            for key in task.event_keys),
                                        agent=agent_config,
-                                       task=format_task_name(
-                                           predefined_fields['cause_task']),
+                                       task=getattr(task , 'label',
+                                                    format_task_name(
+                                           predefined_fields['cause_task'])),
                                        )))
         if set(['effect_agent', 'effect_task']) <= set(predefined_fields):
             task = Agent.registry[predefined_fields['effect_agent']]\

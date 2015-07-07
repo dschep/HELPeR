@@ -47,6 +47,7 @@ http_request.options = OrderedDict([
     ('verify', forms.ChoiceField(label='Verify SSL Certs', required=True,
                                  choices=[('true', 'Yes'), ('false', 'No')])),
 ])
+http_request.label = 'Send Request'
 
 
 @shared_task
@@ -87,3 +88,4 @@ http_request_urldownload.options = OrderedDict([
     ('verify', forms.ChoiceField(label='Verify SSL Certs', required=True,
                                  choices=[('true', 'Yes'), ('false', 'No')])),
 ])
+http_request_urldownload.label = 'Send file from URL with Request'

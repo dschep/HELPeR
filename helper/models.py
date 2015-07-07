@@ -111,11 +111,13 @@ class TaskPair(models.Model):
 
     @property
     def cause_name(self):
-        return self.cause_task.replace('_', ' ').capitalize()
+        return getattr(self.cause, 'label',
+                       self.cause_task.replace('_', ' ').capitalize())
 
     @property
     def effect_name(self):
-        return self.effect_task.replace('_', ' ').capitalize()
+        return getattr(self.effect, 'label',
+                       self.effect_task.replace('_', ' ').capitalize())
 
     @property
     def schedule(self):
