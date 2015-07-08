@@ -10,6 +10,8 @@ from helper.utils.decorators import dedup, format_options_from_event
 from helper.agents.utils import send_to_event_store
 
 def struct2isoformat(struct):
+    if struct is None:
+        return ''
     return datetime.datetime.fromtimestamp(time.mktime(struct)).isoformat()
 
 
