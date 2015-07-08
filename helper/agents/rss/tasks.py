@@ -16,7 +16,7 @@ def struct2isoformat(struct):
 @schedule(1)
 @dedup('id')
 @shared_task
-def get_rss_feed(url, task_pair_id):
+def get_rss_feed(url, task_pair_id, secret):
     resp = feedparser.parse(url)
     assert 'bozo_exception' not in resp
     return [{
