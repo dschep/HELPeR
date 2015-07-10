@@ -1,0 +1,31 @@
+db:
+  image: postgres
+broker:
+  image: redis
+web:
+  build: .
+  command: gunicorn helper.wsgi:application --bind=0:8000 --reload
+  volumes:
+    - .:/usr/src/app
+  ports:
+    - "8000:8000"
+  links:
+    - db
+    - broker
+  env_file: .env
+  environment:
+    DJANGO_SETTINGS_MODULE: helper.settings
+worker:
+  build: .
+  command: celery worker -A helper -l info
+  volumes:
+    - .:/usr/src/app
+  ports:
+    - "5000:5000"
+  links:
+    - db
+    - broker
+  env_file: .env
+  environment:
+    DJANGO_SETTINGS_MODULE: helper.settings
+    C_FORCE_ROOT: true
