@@ -1,9 +1,0 @@
----
-USER: dschep
-BASE_DIR: /home/{{ USER }}/HELPeR
-hostname: helper.schep.me
-port: 80
-bind: unix:/tmp/helper.sock
-autostart: true
-concurency: 10
-editable_pip_install: false

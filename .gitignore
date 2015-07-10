@@ -72,3 +72,6 @@ manage.py
 project
 
 /static
+
+# envfile
+/.env

@@ -1,6 +1,0 @@
----
-- name: install git
-  apt: pkg=git
-- name: get source
-  sudo_user: "{{ USER }}"
-  git: repo=git@github.com:dschep/helper.git dest={{ BASE_DIR }} accept_hostkey=yes update=yes

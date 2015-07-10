@@ -1,0 +1,58 @@
+---
+- hosts: all
+  sudo: yes
+  roles:
+    - angstwad.docker_ubuntu
+  vars:
+    hostname: helper.schep.me
+    bind_port: 8000
+  tasks:
+    - name: db container
+      docker:
+        name: helper-db
+        image: postgres
+        state: started
+        restart_policy: always
+    - name: broker container
+      docker:
+        name: helper-broker
+        image: redis
+        state: started
+        restart_policy: always
+    - name: web container
+      docker:
+        name: helper-web
+        image: dschep/helper
+        state: reloaded
+        restart_policy: always
+        pull: always
+        ports:
+          - "{{ bind_port }}:8000"
+        links:
+          - helper-db:db
+          - helper-broker:broker
+        env:
+          SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
+    - name: worker container
+      docker:
+        name: helper-worker
+        image: dschep/helper
+        command: celery worker -A helper -l info -B
+        state: reloaded
+        restart_policy: always
+        pull: always
+        links:
+          - helper-db:db
+          - helper-broker:broker
+        env:
+          SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
+          C_FORCE_ROOT: true
+    - name: install nginx
+      apt: pkg=nginx state=present
+    - name: copy nginx site
+      template: src=nginx-site dest=/etc/nginx/sites-enabled/helper
+      notify:
+        - restart nginx
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

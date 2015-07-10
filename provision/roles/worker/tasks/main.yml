@@ -1,9 +1,0 @@
----
-- name: supervisor config
-  template: src=supervisor.j2 dest=/etc/supervisor/conf.d/helper.conf
-  notify:
-    - reload supervisor
-
-- name: restart celery workers
-  supervisorctl: name=helper-worker state=restarted
-  when: autostart
