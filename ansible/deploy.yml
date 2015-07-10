@@ -23,6 +23,7 @@
       docker:
         name: helper-web
         image: dschep/helper
+        command: gunicorn helper.wsgi:application --bind=0:8000 --access-logfile - --error-logfile -
         state: reloaded
         restart_policy: always
         pull: always
