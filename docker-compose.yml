@@ -4,7 +4,7 @@ broker:
   image: redis
 web:
   build: .
-  command: gunicorn helper.wsgi:application --bind=0:8000 --reload
+  command: gunicorn helper.wsgi:application --bind=0:8000 --reload --access-logfile - --error-logfile -
   volumes:
     - .:/usr/src/app
   ports:
