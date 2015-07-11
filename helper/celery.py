@@ -4,7 +4,7 @@ from celery import Celery
 
 from django.conf import settings
 
-app = Celery('helper', broker='redis://broker', backend='redis://broker')
+app = Celery('helper')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
