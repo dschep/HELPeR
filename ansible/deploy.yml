@@ -7,6 +7,8 @@
     hostname: helper.schep.me
     bind_port: 8000
   tasks:
+    - include_vars: vars.yml
+    - include_vars: secrets.yml
     - name: db container
       docker:
         name: helper-db
@@ -33,16 +35,16 @@
           - helper-db:db
           - helper-broker:broker
         env:
-          SECRET_KEY: "{{ lookup('env', 'SECRET_KEY') }}"
-          EMAIL_HOST: "{{ lookup('env', 'EMAIL_HOST') }}"
-          EMAIL_HOST_USER: "{{ lookup('env', 'EMAIL_HOST_USER') }}"
-          EMAIL_HOST_PASSWORD: "{{ lookup('env', 'EMAIL_HOST_PASSWORD') }}"
-          EMAIL_PORT: "{{ lookup('env', 'EMAIL_PORT') }}"
-          EMAIL_USE_TLS: "{{ lookup('env', 'EMAIL_USE_TLS') }}"
-          DEFAULT_FROM_EMAIL: "{{ lookup('env', 'DEFAULT_FROM_EMAIL') }}"
-          SERVER_EMAIL: "{{ lookup('env', 'SERVER_EMAIL') }}"
-          ADMIN_EMAIL: "{{ lookup('env', 'ADMIN_EMAIL') }}"
-          CELERY_SEND_TASK_ERROR_EMAILS: "{{ lookup('env', 'CELERY_SEND_TASK_ERROR_EMAILS') }}"
+          SECRET_KEY: "{{ SECRET_KEY }}"
+          EMAIL_HOST: "{{ EMAIL_HOST }}"
+          EMAIL_HOST_USER: "{{ EMAIL_HOST_USER }}"
+          EMAIL_HOST_PASSWORD: "{{ EMAIL_HOST_PASSWORD }}"
+          EMAIL_PORT: "{{ EMAIL_PORT }}"
+          EMAIL_USE_TLS: "{{ EMAIL_USE_TLS }}"
+          DEFAULT_FROM_EMAIL: "{{ DEFAULT_FROM_EMAIL }}"
+          SERVER_EMAIL: "{{ SERVER_EMAIL }}"
+          ADMIN_EMAIL: "{{ ADMIN_EMAIL }}"
+          CELERY_SEND_TASK_ERROR_EMAILS: "{{ CELERY_SEND_TASK_ERROR_EMAILS }}"
     - name: worker container
       docker:
         name: helper-worker

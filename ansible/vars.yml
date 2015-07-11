@@ -1,0 +1,12 @@
+---
+DATABASE_URL: postgres://postgres@db/postgres
+BROKER_URL: redis://broker
+CELERY_RESULT_BACKEND: redis://broker
+EMAIL_HOST: smtp.gmail.com
+EMAIL_PORT: 587
+EMAIL_USE_TLS: true
+EMAIL_HOST_USER: dschep
+ADMIN_EMAIL: dschep@gmail.com
+SERVER_EMAIL: HELPeR <dschep+helper@gmail.com>
+DEFAULT_FROM_EMAIL: HELPeR <dschep+helper@gmail.com>
+CELERY_SEND_TASK_ERROR_EMAILS: true
