@@ -9,6 +9,7 @@
   tasks:
     - include_vars: vars.yml
     - include_vars: secrets.yml
+    - pip: name=docker-py==1.2.3
     - name: db container
       docker:
         name: helper-db
