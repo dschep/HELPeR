@@ -2,14 +2,13 @@
 - hosts: all
   sudo: yes
   roles:
-    - angstwad.docker_ubuntu
+    - { role: angstwad.docker_ubuntu, pip_version_docker_py: 1.2.3 }
   vars:
     hostname: helper.schep.me
     bind_port: 8000
   tasks:
     - include_vars: vars.yml
     - include_vars: secrets.yml
-    - pip: name=docker-py==1.2.3
     - name: db container
       docker:
         name: helper-db
