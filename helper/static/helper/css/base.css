@@ -31,4 +31,5 @@
 
 .fa.fake-icon {
     font: inherit;
+    font-weight: bold;
 }
