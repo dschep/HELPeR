@@ -21,5 +21,5 @@ class GithubAgent(Agent):
     ui = {
         'background': 'black',
         'foreground': 'white',
-        'icon': '<i class="fa fa-github"></i>'
+        'icon': '<i class="fa fa-github-alt"></i>'
     }
