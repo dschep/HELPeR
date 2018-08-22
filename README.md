@@ -1,5 +1,5 @@
 
-#HELPeR
+# HELPeR -- THIS PROJECT IS ABANDONED
 
 HELPeR is a personal IFTTT clone because who wants to give a corporation access
 to *ALL* your online accounts?!
